@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/WeaponInventoryUI.cs" type="Script" id=2]
+[ext_resource path="res://Scenes/WeaponSlotUI.tscn" type="PackedScene" id=3]
+
+[node name="WeaponInventoryUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -32.0
+margin_right = 48.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+margin_right = 96.0
+margin_bottom = 32.0
+color = Color( 0.121569, 0.137255, 0.247059, 0.392157 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_right = 96.0
+margin_bottom = 32.0
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WeaponSlotUI" parent="MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
+
+[node name="WeaponSlotUI2" parent="MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 32.0
+margin_right = 64.0
+
+[node name="WeaponSlotUI3" parent="MarginContainer/HBoxContainer" instance=ExtResource( 3 )]
+margin_left = 64.0
+margin_right = 96.0

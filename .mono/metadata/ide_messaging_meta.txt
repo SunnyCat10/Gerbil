@@ -1,0 +1,2 @@
+﻿50988
+C:/Users/Sunny/Dev/Godot_v3.3.4-stable_mono_win64/Godot_v3.3.4-stable_mono_win64/Godot_v3.3.4-stable_mono_win64.exe

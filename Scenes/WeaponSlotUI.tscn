@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Icons/WeaponInventoryBackground.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/WeaponSlotUI.cs" type="Script" id=3]
+
+[node name="WeaponSlotUI" type="TextureRect"]
+margin_right = 32.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+texture = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_right = 32.0
+margin_bottom = 32.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WeaponTexture" type="TextureRect" parent="MarginContainer"]
+margin_right = 32.0
+margin_bottom = 32.0
+stretch_mode = 4
