@@ -33,7 +33,6 @@ public class Superbroom : Weapon, IMelee
 		await ToSignal(WeaponSprite, "animation_finished");
 		WeaponSprite.Play("Back");
 		await ToSignal(WeaponSprite, "animation_finished");
-		GD.Print("1");
 	}
 
 	public void ChargedAttack()

@@ -31,7 +31,7 @@ public class Player : KinematicBody2D
 
 	public WeaponManager WeaponManager { get; private set; }
 	private Weapon _currentWeapon;
-	private bool _canFire = true;
+	//private bool _canFire = true;
 
 	private Node2D _weaponRootNode;
 
@@ -153,33 +153,30 @@ public class Player : KinematicBody2D
 		}
 	}
 
-	private async void HandleShootingInput(float delta)
+	private void HandleShootingInput(float delta)
 	{
 		if (WeaponManager.GetCurrentWeapon() != null)
 		{
-			_currentWeapon = WeaponManager.GetCurrentWeapon();
-			if (Input.IsActionPressed("Shoot") && _currentWeapon! is IMelee && _canFire)
+			//_currentWeapon = WeaponManager.GetCurrentWeapon();
+			if (Input.IsActionPressed("Shoot"))
 			{
-				_canFire = false;
 				WeaponManager.Attack();
-				await ToSignal(GetTree().CreateTimer(_currentWeapon.RateOfFire), "timeout");
-				_canFire = true;
 				return;
 			}
-			if (Input.IsActionPressed("Shoot") &&
-				_canFire && DrainContact(_currentWeapon.ContactCost))
-			{
-				_canFire = false;
+			//if (Input.IsActionPressed("Shoot") &&
+			//	_canFire && DrainContact(_currentWeapon.ContactCost))
+			//{
+			//	_canFire = false;
 
-				RigidBody2D projectile = (RigidBody2D)_currentWeapon.ProjectileInstance.Instance();
-				projectile.GlobalPosition = _currentWeapon.ProjectileSpawnPoint.GlobalPosition;
-				projectile.Rotation = _turnAxis.Rotation;
-				GetParent().AddChild(projectile);
-				IProjectile projectileInterface = (IProjectile)projectile;
-				projectileInterface.Fire(_currentWeapon.Damage);
-				await ToSignal(GetTree().CreateTimer(_currentWeapon.RateOfFire), "timeout");
-				_canFire = true;
-			}
+			//	RigidBody2D projectile = (RigidBody2D)_currentWeapon.ProjectileInstance.Instance();
+			//	projectile.GlobalPosition = _currentWeapon.ProjectileSpawnPoint.GlobalPosition;
+			//	projectile.Rotation = _turnAxis.Rotation;
+			//	GetParent().AddChild(projectile);
+			//	IProjectile projectileInterface = (IProjectile)projectile;
+			//	projectileInterface.Fire(_currentWeapon.Damage);
+			//	await ToSignal(GetTree().CreateTimer(_currentWeapon.RateOfFire), "timeout");
+			//	_canFire = true;
+			//}
 		}
 	}
 	 
