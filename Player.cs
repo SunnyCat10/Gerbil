@@ -30,10 +30,7 @@ public class Player : KinematicBody2D
 	private Position2D _projectileSpawnPoint;
 
 	public WeaponManager WeaponManager { get; private set; }
-	private Weapon _currentWeapon;
-	//private bool _canFire = true;
 
-	private Node2D _weaponRootNode;
 
 	//TODO: TEST
 	public static bool Stun { get; set; } = false;
@@ -47,6 +44,8 @@ public class Player : KinematicBody2D
 		//TODO: TEMP REMOVE LATER1!!!!!!!1
 		//OS.WindowFullscreen = !OS.WindowFullscreen;
 
+
+
 		_mainStatsUI = GetNode<MainStatsUI>("/root/Map/CanvasLayer/MainStatsUI");
 		await ToSignal(_mainStatsUI, "ready");
 		LoadCharacter(3,9);
@@ -59,20 +58,16 @@ public class Player : KinematicBody2D
 		AddChild(WeaponManager);
 
 		Rng = new RandomNumberGenerator();
-		Rng.Seed = (ulong)GD.Hash("Gishpull" + GetInstanceId().ToString());
+		Rng.Seed = (ulong)GD.Hash("Gishpull" + GetInstanceId().ToString());	
 	}
 
 	public override void _Process(float delta)
 	{
+		PrintStrayNodes();
 		if (_alive)
 		{
 			HandleScrollingMovement();
 			HandleShootingInput(delta);
-			//if (_weaponManager.GetCurrentWeapon() != null)
-			//{
-			//	if (!Stun)
-			//		RotateWeapon();
-			//}
 		}
 	}
 

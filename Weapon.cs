@@ -39,13 +39,9 @@ namespace Gerbil
 
         public Weapon OnPickUp(Node2D picker)
         {
-            //if (picker! is Player)
-            //    return null;
-            //KinematicBody2D player = (KinematicBody2D)picker;
             CollisionBox.SetDeferred("disabled", true);
             GlobalPosition = new Vector2();
             GetParent().RemoveChild(this);
-            //player.WeaponManager.WeaponDisplayPoint.AddChild(this);
             picker.AddChild(this);
             return this;
         }

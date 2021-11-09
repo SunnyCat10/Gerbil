@@ -2,7 +2,7 @@ using Godot;
 using System;
 using Gerbil;
 
-public class Stapler : StaticBody2D, IWeapon
+public class Stapler : Weapon, IWeapon
 {
 	private const string COLLISION_PATH = "/CollisionShape2D";
 	private const string WEAPON_SPRITE_PATH = "/Stapler";
@@ -18,14 +18,14 @@ public class Stapler : StaticBody2D, IWeapon
 	public override void _Ready()
 	{
 		_collisionShape = GetNode<CollisionShape2D>(GetPath() + COLLISION_PATH);
-		weaponStats = new Weapon(
-			FIRE_RATE,
-			DAMAGE,
-			CONTACT_COST,
-			GetNode<Node2D>(GetPath()),
-			GetNode<Sprite>(GetPath() + WEAPON_SPRITE_PATH).Texture,
-			GetNode<Position2D>(GetPath() + PROJECTILE_SPAWN_POINT_PATH),
-			PROJECTILE_SCENE_PATH);
+		//weaponStats = new Weapon(
+		//	FIRE_RATE,
+		//	DAMAGE,
+		//	CONTACT_COST,
+		//	GetNode<Node2D>(GetPath()),
+		//	GetNode<Sprite>(GetPath() + WEAPON_SPRITE_PATH).Texture,
+		//	GetNode<Position2D>(GetPath() + PROJECTILE_SPAWN_POINT_PATH),
+		//	PROJECTILE_SCENE_PATH);
 	}
 
 	public Weapon OnPickUp(Node2D picker)

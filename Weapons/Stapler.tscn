@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
-[node name="Stapler" type="StaticBody2D"]
+[node name="Stapler" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 1 )
 

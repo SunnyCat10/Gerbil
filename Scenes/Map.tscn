@@ -343,6 +343,8 @@ collision_mask = 5
 [node name="MainStatsUI" parent="CanvasLayer" instance=ExtResource( 2 )]
 
 [node name="WeaponInventoryUI" parent="CanvasLayer" instance=ExtResource( 15 )]
+margin_top = 1.0
+margin_bottom = 1.0
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( -2, 0 )

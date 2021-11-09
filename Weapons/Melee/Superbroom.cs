@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 public class Superbroom : Weapon, IMelee
 {
-	//private const string WeaponTexturePath = "/Sprite";
 	private const string WeaponTexturePath = "/AnimatedSprite";
 	private const string WeaponCollisionPath = "/CollisionShape2D";
 	private const float WeaponRateOfFire = 0.5f;
@@ -21,10 +20,9 @@ public class Superbroom : Weapon, IMelee
 		Damage = WeaponDamage;
 		ContactCost = WeaponContactCost;
 		WeaponNode = this;
-		//WeaponTexture = (Sprite)GetNode<Node2D>(GetPath() + WeaponTexturePath);
 		CollisionBox = GetNode<Node2D>(GetPath() + WeaponCollisionPath);
 		WeaponSprite = GetNode<AnimatedSprite>(GetPath() + WeaponTexturePath);
-		WeaponTexture = WeaponSprite.Frames.GetFrame("Attack",0);
+		WeaponTexture = WeaponSprite.Frames.GetFrame("Attack", 0);
 	}
 
 	public async Task Attack()
