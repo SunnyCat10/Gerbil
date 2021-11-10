@@ -63,6 +63,7 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+z_index = 2
 frames = SubResource( 11 )
 animation = "Flying"
 frame = 8

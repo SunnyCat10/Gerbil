@@ -21,12 +21,6 @@ namespace Gerbil
 
 		//V2
 		private bool isInMeleeAttack = false;
-		private float currentRotationInArc = 0;
-		private float rotationSpeed = 0.1f;
-		private float swingArc = 2.1f;
-
-		//V3 -> When getting new weapon cut swing arc by half
-		private float swingArcV2 = 2f;
 
 		public WeaponManager(Position2D weaponRotationAxis, Position2D weaponDisplayPoint)
 		{
@@ -60,9 +54,12 @@ namespace Gerbil
 		{
 			if (GetCurrentWeapon() is IMelee)
 			{
-				//GetCurrentWeapon().WeaponNode.Scale = new Vector2(-1, 1);
-				float angleToMouse = GetAngleTo(GetGlobalMousePosition());
-				WeaponRotationAxis.Rotation = angleToMouse; // - 2.356f;
+				if (isWeaponCooldownComplete[currentSelection])
+				{
+					//GetCurrentWeapon().WeaponNode.Scale = new Vector2(-1, 1);
+					float angleToMouse = GetAngleTo(GetGlobalMousePosition());
+					WeaponRotationAxis.Rotation = angleToMouse; // - 2.356f;	
+				}
 			}
 			else
 			{
@@ -75,6 +72,14 @@ namespace Gerbil
 			}
 		}
 
+		private void RotateWeaponDisplayPoint()
+		{
+			if (GetCurrentWeapon() is IMelee)
+				WeaponDisplayPoint.Rotation = 0.78539f;
+			else
+				WeaponDisplayPoint.Rotation = 0f;
+		}
+
 		public void AddWeapon(Weapon weapon)
 		{
 			GD.Print("Added Weapon");
@@ -85,6 +90,7 @@ namespace Gerbil
 					_weaponInventory[i] = weapon;
 					_weaponInventoryUI.AddWeapon(weapon, i);
 					isWeaponCooldownComplete[i] = true;
+					RotateWeaponDisplayPoint();
 					return;
 				}
 			}
@@ -120,6 +126,7 @@ namespace Gerbil
 			}
 			if (_weaponInventory[currentSelection] != null)
 				_weaponInventory[currentSelection].WeaponNode.Visible = true;
+			RotateWeaponDisplayPoint();
 			return (_weaponInventory[currentSelection] != null);
 		}
 
@@ -138,31 +145,35 @@ namespace Gerbil
 			}
 			if (_weaponInventory[currentSelection] != null)
 				_weaponInventory[currentSelection].WeaponNode.Visible = true;
+			RotateWeaponDisplayPoint();
 			return (_weaponInventory[currentSelection] != null);
 		}
 	 
 		public async void Attack()
 		{
-			if (isWeaponCooldownComplete[currentSelection])
+			int selectedWeapon = currentSelection;
+			if (isWeaponCooldownComplete[selectedWeapon])
 			{
 				Weapon weapon = GetCurrentWeapon();
 				if (weapon is IMelee)
 				{
-					isWeaponCooldownComplete[currentSelection] = false;
-
+					isWeaponCooldownComplete[selectedWeapon] = false;
 					IMelee meleeWeapon = (IMelee)weapon;
-					isInMeleeAttack = true;
-
-					Player.Stun = true;
-
-					WeaponRotationAxis.Rotation += 0.78539f;
 					await meleeWeapon.Attack();
-					isInMeleeAttack = false;
-
-					Player.Stun = false;
-
 					await ToSignal(GetTree().CreateTimer(weapon.RateOfFire), "timeout");
-					isWeaponCooldownComplete[currentSelection] = true;
+					isWeaponCooldownComplete[selectedWeapon] = true;
+				}
+				else //Weapon is ranged:
+				{
+					isWeaponCooldownComplete[selectedWeapon] = false;
+					RigidBody2D projectile = (RigidBody2D)weapon.ProjectileInstance.Instance();
+					projectile.GlobalPosition = weapon.ProjectileSpawnPoint.GlobalPosition;
+					projectile.Rotation = WeaponRotationAxis.Rotation; 
+					GetParent().GetParent().AddChild(projectile);
+					IProjectile projectileInterface = (IProjectile)projectile;
+					projectileInterface.Fire(weapon.Damage);
+					await ToSignal(GetTree().CreateTimer(weapon.RateOfFire), "timeout");
+					isWeaponCooldownComplete[selectedWeapon] = true;
 				}
 			}
 		}

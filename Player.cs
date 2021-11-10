@@ -5,8 +5,6 @@ using Gerbil.Weapons;
 
 public class Player : KinematicBody2D
 {
-	private const float BASE_SPEED = 2.5f;
-
 	[Export]
 	private float MAX_SPEED = 2.9f;
 	[Export]
@@ -24,16 +22,11 @@ public class Player : KinematicBody2D
 	private float _rangedModifier;
 	private float _meeleModifier;
 
-
 	private MainStatsUI _mainStatsUI;
 	private Position2D _turnAxis;
 	private Position2D _projectileSpawnPoint;
 
 	public WeaponManager WeaponManager { get; private set; }
-
-
-	//TODO: TEST
-	public static bool Stun { get; set; } = false;
 
 	private bool _canGetCollisionDamage = true;
 
@@ -41,11 +34,6 @@ public class Player : KinematicBody2D
 
 	public override async void _Ready()
 	{
-		//TODO: TEMP REMOVE LATER1!!!!!!!1
-		//OS.WindowFullscreen = !OS.WindowFullscreen;
-
-
-
 		_mainStatsUI = GetNode<MainStatsUI>("/root/Map/CanvasLayer/MainStatsUI");
 		await ToSignal(_mainStatsUI, "ready");
 		LoadCharacter(3,9);
@@ -132,14 +120,14 @@ public class Player : KinematicBody2D
 
 	private void HandleScrollingMovement()
 	{
-		if (Input.IsActionJustReleased("scroll_up"))
+		if (Input.IsActionJustReleased("scroll_down")) 
 		{
 			if (WeaponManager.GetCurrentWeapon() != null)
 				WeaponManager.GetCurrentWeapon().WeaponNode.Visible = false;
 			if (WeaponManager.ScrollRight())
 				WeaponManager.GetCurrentWeapon().WeaponNode.Visible = true;
 		}
-		if (Input.IsActionJustReleased("scroll_down"))
+		if (Input.IsActionJustReleased("scroll_up"))
 		{
 			if (WeaponManager.GetCurrentWeapon() != null)
 				WeaponManager.GetCurrentWeapon().WeaponNode.Visible = false;
@@ -150,29 +138,8 @@ public class Player : KinematicBody2D
 
 	private void HandleShootingInput(float delta)
 	{
-		if (WeaponManager.GetCurrentWeapon() != null)
-		{
-			//_currentWeapon = WeaponManager.GetCurrentWeapon();
-			if (Input.IsActionPressed("Shoot"))
-			{
-				WeaponManager.Attack();
-				return;
-			}
-			//if (Input.IsActionPressed("Shoot") &&
-			//	_canFire && DrainContact(_currentWeapon.ContactCost))
-			//{
-			//	_canFire = false;
-
-			//	RigidBody2D projectile = (RigidBody2D)_currentWeapon.ProjectileInstance.Instance();
-			//	projectile.GlobalPosition = _currentWeapon.ProjectileSpawnPoint.GlobalPosition;
-			//	projectile.Rotation = _turnAxis.Rotation;
-			//	GetParent().AddChild(projectile);
-			//	IProjectile projectileInterface = (IProjectile)projectile;
-			//	projectileInterface.Fire(_currentWeapon.Damage);
-			//	await ToSignal(GetTree().CreateTimer(_currentWeapon.RateOfFire), "timeout");
-			//	_canFire = true;
-			//}
-		}
+		if (WeaponManager.GetCurrentWeapon() != null && Input.IsActionPressed("Shoot"))
+			WeaponManager.Attack();
 	}
 	 
 	private async void OnEnemyCollision()

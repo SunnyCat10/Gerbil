@@ -4,20 +4,28 @@ using Gerbil;
 
 public class Stapler : Weapon, IWeapon
 {
-	private const string COLLISION_PATH = "/CollisionShape2D";
-	private const string WEAPON_SPRITE_PATH = "/Stapler";
-	private const string PROJECTILE_SPAWN_POINT_PATH = "/ProjectileSpawnPoint";
-	private const string PROJECTILE_SCENE_PATH = "res://Projectiles/Staple.tscn";
-	private const float FIRE_RATE = 0.5f;
-	private const int DAMAGE = 20;
-	private const int CONTACT_COST = 0;
+	private const string WeaponCollisionPath = "/CollisionShape2D";
+	private const string WeaponTexturePath = "/Stapler";
+	private const string ProjectileSpawnPointPath = "/ProjectileSpawnPoint";
+	private const string ProjectileScenePath = "res://Projectiles/Staple.tscn";
+	private const float WeaponRateOfFire = 0.5f;
+	private const int WeaponDamage = 20;
+	private const int WeaponContactCost = 0;
 
-	private CollisionShape2D _collisionShape;
-	private Weapon weaponStats;
+	//private CollisionShape2D _collisionShape;
+	//private Weapon weaponStats;
 
 	public override void _Ready()
 	{
-		_collisionShape = GetNode<CollisionShape2D>(GetPath() + COLLISION_PATH);
+		//_collisionShape = GetNode<CollisionShape2D>(GetPath() + COLLISION_PATH);
+		RateOfFire = WeaponRateOfFire;
+		Damage = WeaponDamage;
+		ContactCost = WeaponContactCost;
+		WeaponNode = this;
+		CollisionBox = GetNode<Node2D>(GetPath() + WeaponCollisionPath);
+		WeaponTexture = GetNode<Sprite>(GetPath() + WeaponTexturePath).Texture;
+		ProjectileSpawnPoint = GetNode<Position2D>(GetPath() + ProjectileSpawnPointPath);
+		ProjectileInstance = ResourceLoader.Load<PackedScene>(ProjectileScenePath);
 		//weaponStats = new Weapon(
 		//	FIRE_RATE,
 		//	DAMAGE,
@@ -28,12 +36,13 @@ public class Stapler : Weapon, IWeapon
 		//	PROJECTILE_SCENE_PATH);
 	}
 
-	public Weapon OnPickUp(Node2D picker)
+	public new Weapon OnPickUp(Node2D picker)
 	{
-		_collisionShape.SetDeferred("disabled", true);
-		GlobalPosition = new Vector2();
-		GetParent().RemoveChild(this);	
-		picker.AddChild(this);
-		return weaponStats; 
+		return base.OnPickUp(picker);
+		//_collisionShape.SetDeferred("disabled", true);
+		//GlobalPosition = new Vector2();
+		//GetParent().RemoveChild(this);
+		//picker.AddChild(this);
+		//return weaponStats;
 	}
 }
