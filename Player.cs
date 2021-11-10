@@ -5,44 +5,44 @@ using Gerbil.Weapons;
 
 public class Player : KinematicBody2D
 {
+	public WeaponManager WeaponManager { get; private set; }
+	public RandomNumberGenerator Rng { get; private set; }
+
+	private const string MainStatsUIPath = "/root/Map/CanvasLayer/MainStatsUI";
+	private const string TurnAxisPath = "/root/Map/Player/TurnAxis";
+
 	[Export]
 	private float MAX_SPEED = 2.9f;
 	[Export]
 	private int ACCELERATION = 30;
-	private Vector2 _motion = Vector2.Zero;
+	private Vector2 motion = Vector2.Zero;
 
-	private bool _alive = true;
-	private int _maxHealth;
-	private int _health;
-	private int _maxContact;
-	private int _contact;
+	private bool alive = true;
+	private int maxHealth;
+	private int health;
+	private int maxContact;
+	private int contact;
 	private int _speed;
 	private int _luck;
 	private float _magicModifier;
 	private float _rangedModifier;
 	private float _meeleModifier;
-
-	private MainStatsUI _mainStatsUI;
-	private Position2D _turnAxis;
-	private Position2D _projectileSpawnPoint;
-
-	public WeaponManager WeaponManager { get; private set; }
-
-	private bool _canGetCollisionDamage = true;
-
-	public RandomNumberGenerator Rng { get; private set; }
+	private bool canGetCollisionDamage = true;
+	private MainStatsUI mainStatsUI;
+	private Position2D turnAxis;
+	private Position2D projectileSpawnPoint;
 
 	public override async void _Ready()
 	{
-		_mainStatsUI = GetNode<MainStatsUI>("/root/Map/CanvasLayer/MainStatsUI");
-		await ToSignal(_mainStatsUI, "ready");
+		mainStatsUI = GetNode<MainStatsUI>(MainStatsUIPath);
+		await ToSignal(mainStatsUI, "ready");
 		LoadCharacter(3,9);
-		_mainStatsUI.SetupStartingStats(_maxHealth, _maxContact);
+		mainStatsUI.SetupStartingStats(maxHealth, maxContact);
 
-		_turnAxis = GetNode<Position2D>("/root/Map/Player/TurnAxis");
-		_projectileSpawnPoint = (Position2D)_turnAxis.GetChild(0);
+		turnAxis = GetNode<Position2D>(TurnAxisPath);
+		projectileSpawnPoint = (Position2D)turnAxis.GetChild(0);
 
-		WeaponManager = new WeaponManager(_turnAxis ,_projectileSpawnPoint);
+		WeaponManager = new WeaponManager(turnAxis ,projectileSpawnPoint);
 		AddChild(WeaponManager);
 
 		Rng = new RandomNumberGenerator();
@@ -51,8 +51,7 @@ public class Player : KinematicBody2D
 
 	public override void _Process(float delta)
 	{
-		PrintStrayNodes();
-		if (_alive)
+		if (alive)
 		{
 			HandleScrollingMovement();
 			HandleShootingInput(delta);
@@ -61,7 +60,7 @@ public class Player : KinematicBody2D
 
 	public override void _PhysicsProcess(float delta)
 	{
-		if (_alive)
+		if (alive)
 		{
 			KinematicCollision2D collision = HandleMovementInput(delta);
 			if (collision != null)
@@ -69,7 +68,7 @@ public class Player : KinematicBody2D
 				if (collision.Collider is IWeapon)
 				{
 					IWeapon weapon = (IWeapon)collision.Collider;
-					Weapon pickedWeapon = weapon.OnPickUp(_projectileSpawnPoint);
+					Weapon pickedWeapon = weapon.OnPickUp(projectileSpawnPoint);
 					WeaponManager.AddWeapon(pickedWeapon);
 				}
 				else if (collision.Collider is TileMap)
@@ -87,7 +86,7 @@ public class Player : KinematicBody2D
 			ApplyFriction(ACCELERATION * delta);
 		else
 			ApplyForce(direction * ACCELERATION * delta);
-		return MoveAndCollide(_motion);
+		return MoveAndCollide(motion);
 	}
 
 	private Vector2 GetDirectionInput()
@@ -106,16 +105,16 @@ public class Player : KinematicBody2D
 
 	private void ApplyFriction(float amount)
 	{
-		if (_motion.Length() > amount)
-			_motion -= _motion.Normalized() * amount;
+		if (motion.Length() > amount)
+			motion -= motion.Normalized() * amount;
 		else
-			_motion = Vector2.Zero;
+			motion = Vector2.Zero;
 	}
 
 	private void ApplyForce(Vector2 acceleration)
 	{
-		_motion += acceleration;
-		_motion = _motion.Clamped(MAX_SPEED);
+		motion += acceleration;
+		motion = motion.Clamped(MAX_SPEED);
 	}
 
 	private void HandleScrollingMovement()
@@ -144,12 +143,12 @@ public class Player : KinematicBody2D
 	 
 	private async void OnEnemyCollision()
 	{
-		if (_canGetCollisionDamage)
+		if (canGetCollisionDamage)
 		{
-			_canGetCollisionDamage = false;
+			canGetCollisionDamage = false;
 			Damage(1);	
 			await ToSignal(GetTree().CreateTimer(0.3f), "timeout");
-			_canGetCollisionDamage = true;
+			canGetCollisionDamage = true;
 		}
 	}
 
@@ -162,10 +161,10 @@ public class Player : KinematicBody2D
 			Death();
 			return;
 		}
-		_maxHealth = health;
-		_maxContact = contact;
-		_health = _maxHealth;
-		_contact = _maxContact;
+		maxHealth = health;
+		maxContact = contact;
+		this.health = maxHealth;
+		this.contact = maxContact;
 		_speed = 0;
 		_luck = 0;
 		_magicModifier = 1;
@@ -175,58 +174,58 @@ public class Player : KinematicBody2D
 
 	public void Death()
 	{
-		_alive = false;
+		alive = false;
 		GD.Print("RIP");
 	}
 
 	public void Heal(int healAmount)
 	{
-		if (_health == _maxHealth)
+		if (health == maxHealth)
 			return;
 		else
 		{
-			_health += (healAmount + _health) - _maxHealth;
-			_mainStatsUI.AddHealth(_health);
+			health += (healAmount + health) - maxHealth;
+			mainStatsUI.AddHealth(health);
 		}
 	}
 
 	public void Damage(int damageAmount)
 	{
-		if (_health - damageAmount <= 0)
+		if (health - damageAmount <= 0)
 		{
-			_mainStatsUI.RemoveHealth(_health);
-			_health = 0;
+			mainStatsUI.RemoveHealth(health);
+			health = 0;
 			Death();
 		}
 		else
 		{
-			_health -= damageAmount;
-			_mainStatsUI.RemoveHealth(damageAmount);
+			health -= damageAmount;
+			mainStatsUI.RemoveHealth(damageAmount);
 		}
 	}
 
 	public void FillContact(int amount)
 	{
-		if (_contact == _maxContact)
+		if (contact == maxContact)
 			return;
 		else
 		{
-			_contact += (amount + _contact) - _maxContact;
-			_mainStatsUI.AddContact(_contact);
+			contact += (amount + contact) - maxContact;
+			mainStatsUI.AddContact(contact);
 		}
 	}
 
 	public bool DrainContact(int amount)
 	{
-		if (_contact - amount < 0)
+		if (contact - amount < 0)
 		{
 			//TODO: InsufficentContactPopup();
 			return false;
 		}
 		else
 		{
-			_contact -= amount;
-			_mainStatsUI.RemoveContact(amount);
+			contact -= amount;
+			mainStatsUI.RemoveContact(amount);
 			return true;
 		}
 	}
