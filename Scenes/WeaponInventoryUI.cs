@@ -59,6 +59,6 @@ public class WeaponInventoryUI : Control
 
 	public void AddWeapon(Weapon weapon, int index)
 	{
-		_weaponSlots[index].AddWeapon(weapon.WeaponTexture);
+		_weaponSlots[index].AddWeapon(weapon.Icon);
 	}
 }

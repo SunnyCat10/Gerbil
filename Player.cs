@@ -122,16 +122,16 @@ public class Player : KinematicBody2D
 		if (Input.IsActionJustReleased("scroll_down")) 
 		{
 			if (WeaponManager.GetCurrentWeapon() != null)
-				WeaponManager.GetCurrentWeapon().WeaponNode.Visible = false;
+				WeaponManager.GetCurrentWeapon().RootNode.Visible = false;
 			if (WeaponManager.ScrollRight())
-				WeaponManager.GetCurrentWeapon().WeaponNode.Visible = true;
+				WeaponManager.GetCurrentWeapon().RootNode.Visible = true;
 		}
 		if (Input.IsActionJustReleased("scroll_up"))
 		{
 			if (WeaponManager.GetCurrentWeapon() != null)
-				WeaponManager.GetCurrentWeapon().WeaponNode.Visible = false;
+				WeaponManager.GetCurrentWeapon().RootNode.Visible = false;
 			if (WeaponManager.ScrollLeft())
-				WeaponManager.GetCurrentWeapon().WeaponNode.Visible = true;
+				WeaponManager.GetCurrentWeapon().RootNode.Visible = true;
 		}
 	}
 

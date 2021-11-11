@@ -21,9 +21,9 @@ public class Stapler : Weapon, IWeapon
 		RateOfFire = WeaponRateOfFire;
 		Damage = WeaponDamage;
 		ContactCost = WeaponContactCost;
-		WeaponNode = this;
+		RootNode = this;
 		CollisionBox = GetNode<Node2D>(GetPath() + WeaponCollisionPath);
-		WeaponTexture = GetNode<Sprite>(GetPath() + WeaponTexturePath).Texture;
+		Icon = GetNode<Sprite>(GetPath() + WeaponTexturePath).Texture;
 		ProjectileSpawnPoint = GetNode<Position2D>(GetPath() + ProjectileSpawnPointPath);
 		ProjectileInstance = ResourceLoader.Load<PackedScene>(ProjectileScenePath);
 		//weaponStats = new Weapon(

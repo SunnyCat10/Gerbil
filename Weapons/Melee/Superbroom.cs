@@ -19,18 +19,18 @@ public class Superbroom : Weapon, IMelee
 		RateOfFire = WeaponRateOfFire;
 		Damage = WeaponDamage;
 		ContactCost = WeaponContactCost;
-		WeaponNode = this;
+		RootNode = this;
 		CollisionBox = GetNode<Node2D>(GetPath() + WeaponCollisionPath);
-		WeaponSprite = GetNode<AnimatedSprite>(GetPath() + WeaponTexturePath);
-		WeaponTexture = WeaponSprite.Frames.GetFrame("Attack", 0);
+		WeaponAnimatedSprite = GetNode<AnimatedSprite>(GetPath() + WeaponTexturePath);
+		Icon = WeaponAnimatedSprite.Frames.GetFrame("Attack", 0);
 	}
 
 	public async Task Attack()
 	{
-		WeaponSprite.Play("Attack");
-		await ToSignal(WeaponSprite, "animation_finished");
-		WeaponSprite.Play("Back");
-		await ToSignal(WeaponSprite, "animation_finished");
+		WeaponAnimatedSprite.Play("Attack");
+		await ToSignal(WeaponAnimatedSprite, "animation_finished");
+		WeaponAnimatedSprite.Play("Back");
+		await ToSignal(WeaponAnimatedSprite, "animation_finished");
 	}
 
 	public void ChargedAttack()

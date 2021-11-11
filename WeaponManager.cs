@@ -65,9 +65,9 @@ namespace Gerbil
 			{
 				float angleToMouse = GetAngleTo(GetGlobalMousePosition());
 				if (angleToMouse < 1.57 && angleToMouse > -1.57)
-					GetCurrentWeapon().WeaponNode.Scale = new Vector2(1, 1);
+					GetCurrentWeapon().RootNode.Scale = new Vector2(1, 1);
 				else
-					GetCurrentWeapon().WeaponNode.Scale = new Vector2(1, -1);
+					GetCurrentWeapon().RootNode.Scale = new Vector2(1, -1);
 				WeaponRotationAxis.Rotation = angleToMouse;
 			}
 		}
@@ -115,7 +115,7 @@ namespace Gerbil
 		{
 			_weaponInventoryUI.ScrollRight();
 			if (_weaponInventory[currentSelection] != null)
-				_weaponInventory[currentSelection].WeaponNode.Visible = false;
+				_weaponInventory[currentSelection].RootNode.Visible = false;
 			if (currentSelection + 1 == _weaponInventory.Length)
 			{
 				currentSelection = 0;
@@ -125,7 +125,7 @@ namespace Gerbil
 				++currentSelection;
 			}
 			if (_weaponInventory[currentSelection] != null)
-				_weaponInventory[currentSelection].WeaponNode.Visible = true;
+				_weaponInventory[currentSelection].RootNode.Visible = true;
 			RotateWeaponDisplayPoint();
 			return (_weaponInventory[currentSelection] != null);
 		}
@@ -134,7 +134,7 @@ namespace Gerbil
 		{
 			_weaponInventoryUI.ScrollLeft();
 			if (_weaponInventory[currentSelection] != null)
-				_weaponInventory[currentSelection].WeaponNode.Visible = false;
+				_weaponInventory[currentSelection].RootNode.Visible = false;
 			if (currentSelection - 1 == -1)
 			{
 				currentSelection = _weaponInventory.Length - 1;
@@ -144,7 +144,7 @@ namespace Gerbil
 				--currentSelection;     
 			}
 			if (_weaponInventory[currentSelection] != null)
-				_weaponInventory[currentSelection].WeaponNode.Visible = true;
+				_weaponInventory[currentSelection].RootNode.Visible = true;
 			RotateWeaponDisplayPoint();
 			return (_weaponInventory[currentSelection] != null);
 		}
