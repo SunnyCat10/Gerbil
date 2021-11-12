@@ -22,6 +22,11 @@ namespace Gerbil
 		//V2
 		private bool isInMeleeAttack = false;
 
+		/// <summary>
+		/// Godot engine requires parameterless constructor for every class that inherits Godot classes.
+		/// </summary>
+		public WeaponManager() { }
+
 		public WeaponManager(Position2D weaponRotationAxis, Position2D weaponDisplayPoint)
 		{
 			_weaponInventory = new Weapon[WEAPON_INVENTROY_SIZE];

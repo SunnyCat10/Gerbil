@@ -14,10 +14,6 @@ config/name="Gerbil"
 run/main_scene="res://Scenes/Map.tscn"
 config/icon="res://icon.png"
 
-[debug]
-
-settings/stdout/verbose_stdout=true
-
 [display]
 
 window/stretch/mode="2d"
