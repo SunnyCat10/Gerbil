@@ -59,10 +59,15 @@ namespace Gerbil
         /// <returns> Class instance that inherits the abstract weapon. </returns>
         public Weapon OnPickUp(Node2D picker)
         {
-            CollisionBox.SetDeferred("disabled", true);
-            GlobalPosition = new Vector2();
-            GetParent().RemoveChild(this);
-            picker.AddChild(this);
+            if (picker is Player)
+            {
+                Player player = (Player)picker;
+                CollisionBox.SetDeferred("disabled", true);
+                GlobalPosition = new Vector2();
+                Position2D weaponDisplayPoint = player.WeaponManager.WeaponDisplayPoint;
+                GetParent().RemoveChild(this);
+                weaponDisplayPoint.AddChild(this);       
+            }
             return this;
         }
     }

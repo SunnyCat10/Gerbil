@@ -68,7 +68,7 @@ public class Player : KinematicBody2D
 				if (collision.Collider is IWeapon)
 				{
 					IWeapon weapon = (IWeapon)collision.Collider;
-					Weapon pickedWeapon = weapon.OnPickUp(projectileSpawnPoint);
+					Weapon pickedWeapon = weapon.OnPickUp(this);
 					WeaponManager.AddWeapon(pickedWeapon);
 				}
 				else if (collision.Collider is TileMap)
