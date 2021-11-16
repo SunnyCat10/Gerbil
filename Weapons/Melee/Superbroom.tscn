@@ -52,7 +52,7 @@ animations = [ {
 extents = Vector2( 16.1097, 6.95669 )
 
 [sub_resource type="CircleShape2D" id=11]
-radius = 30.1781
+radius = 30.0
 
 [node name="Superbroom" type="KinematicBody2D"]
 z_index = 2

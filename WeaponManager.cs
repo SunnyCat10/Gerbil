@@ -10,6 +10,7 @@ namespace Gerbil
 	{
 		public Position2D WeaponRotationAxis { get; private set; }
 		public Position2D WeaponDisplayPoint { get; private set; }
+		public MeleeCollisionDetector MeleeCollisionDetector { get; private set; }
 
 		private const string WeaponInventoryUIPath = "/root/Map/CanvasLayer/WeaponInventoryUI";
 		private const int WeaponInventorySize = 3;
@@ -25,12 +26,13 @@ namespace Gerbil
 		/// </summary>
 		public WeaponManager() { }
 
-		public WeaponManager(Position2D weaponRotationAxis, Position2D weaponDisplayPoint)
+		public WeaponManager(Position2D weaponRotationAxis, Position2D weaponDisplayPoint, MeleeCollisionDetector meleeCollisionDetector)
 		{
 			weaponInventory = new Weapon[WeaponInventorySize];
 			isWeaponCooldownComplete = new bool[WeaponInventorySize];
 			WeaponRotationAxis = weaponRotationAxis;
-			WeaponDisplayPoint = weaponDisplayPoint; 
+			WeaponDisplayPoint = weaponDisplayPoint;
+			MeleeCollisionDetector = meleeCollisionDetector;
 		}
 
 		public override void _Ready()
@@ -167,6 +169,10 @@ namespace Gerbil
 				Weapon weapon = GetCurrentWeapon();
 				if (weapon is IMelee)
 				{
+					//TEST 
+					MeleeCollisionDetector.CircleRadius = 30;
+					MeleeCollisionDetector.CollisionArc = Mathf.Deg2Rad(90f);
+					//
 					isWeaponCooldownComplete[selectedWeapon] = false;
 					IMelee meleeWeapon = (IMelee)weapon;
 					await meleeWeapon.Attack();

@@ -15,13 +15,13 @@ public class Superbroom : Weapon, IMelee
 	private const int WeaponDamage = 30;
 	private const int WeaponContactCost = 0;
 	
-	private Area2D weaponHitbox;
+	//private Area2D weaponHitbox;
 	private CollisionShape2D weaponHitboxCollisionShape;
 	//private Position2D playerWeaponRotationAxis;
 	private WeaponManager playerWeaponManager;
 	private Vector2 weaponAttackDirection;
 	private bool isCheckingForWeaponCollision = false;
-	private List<Node2D> bodiesInsideDetectionRange;
+	//private List<Node2D> bodiesInsideDetectionRange;
 
 	private int TEST = 0;
 
@@ -29,18 +29,18 @@ public class Superbroom : Weapon, IMelee
 
 	public override void _Ready()
 	{
-		bodiesInsideDetectionRange = new List<Node2D>();
+		//bodiesInsideDetectionRange = new List<Node2D>();
 		RateOfFire = WeaponRateOfFire;
 		Damage = WeaponDamage;
 		ContactCost = WeaponContactCost;
 		RootNode = this;
 		CollisionBox = GetNode<Node2D>(GetPath() + WeaponCollisionPath);
 		WeaponAnimatedSprite = GetNode<AnimatedSprite>(GetPath() + WeaponTexturePath);
-		weaponHitbox = GetNode<Area2D>(GetPath() + WeaponHitboxPath);
+		//weaponHitbox = GetNode<Area2D>(GetPath() + WeaponHitboxPath);
 		weaponHitboxCollisionShape = GetNode<CollisionShape2D>(GetPath() + WeaponHitboxCollisionShapePath);
 		Icon = WeaponAnimatedSprite.Frames.GetFrame("Attack", 0);
-		weaponHitbox.Connect("body_entered", this, nameof(OnAreaEnter));
-		weaponHitbox.Connect("body_exited", this, nameof(OnAreaExit));
+		//weaponHitbox.Connect("body_entered", this, nameof(OnAreaEnter));
+		//weaponHitbox.Connect("body_exited", this, nameof(OnAreaExit));
 	}
 
 	public override void _Process(float delta)
@@ -51,30 +51,32 @@ public class Superbroom : Weapon, IMelee
 		}
 	}
 
-	private void DetectCollisions()
-	{
-		foreach (Node2D body in bodiesInsideDetectionRange)
-		{
-			Vector2 collidingBodyDirection = (body.GlobalPosition - playerWeaponManager.WeaponDisplayPoint.GlobalPosition).Normalized();
-			GD.Print("COIN " + collidingBodyDirection.ToString());
-			if (weaponAttackDirection.Dot(collidingBodyDirection) > 0)
-			{
-				GD.Print(TEST);
-				TEST++;
-			}
-		}
-	}
+	//private void DetectCollisions()
+	//{
+	//	foreach (Node2D body in bodiesInsideDetectionRange)
+	//	{
+	//		Vector2 collidingBodyDirection = (body.GlobalPosition - playerWeaponManager.WeaponDisplayPoint.GlobalPosition).Normalized();
+	//		GD.Print("COIN " + collidingBodyDirection.ToString());
+	//		if (weaponAttackDirection.Dot(collidingBodyDirection) > 0)
+	//		{
+	//			GD.Print(TEST);
+	//			TEST++;
+	//		}
+	//	}
+	//}
 
 	public async Task Attack()
 	{
 		//weaponAttackDirection = new Vector2(
 		//		Mathf.Sin(playerWeaponManager.WeaponRotationAxis.Rotation),
 		//		Mathf.Cos(playerWeaponManager.WeaponRotationAxis.Rotation));
-		weaponAttackDirection = (playerWeaponManager.WeaponDisplayPoint.GlobalPosition - playerWeaponManager.WeaponRotationAxis.GlobalPosition).Normalized();
-		GD.Print(weaponAttackDirection.ToString());
+		//weaponAttackDirection = (playerWeaponManager.WeaponDisplayPoint.GlobalPosition - playerWeaponManager.WeaponRotationAxis.GlobalPosition).Normalized();
+		//GD.Print(weaponAttackDirection.ToString());
 		isCheckingForWeaponCollision = true;
-		DetectCollisions();
+		//DetectCollisions();
 		WeaponAnimatedSprite.Play("Attack");
+		playerWeaponManager.MeleeCollisionDetector.DetectCollision(
+			(playerWeaponManager.WeaponDisplayPoint.GlobalPosition - playerWeaponManager.WeaponRotationAxis.GlobalPosition).Normalized());
 		await ToSignal(WeaponAnimatedSprite, "animation_finished");
 		WeaponAnimatedSprite.Play("Back");
 		await ToSignal(WeaponAnimatedSprite, "animation_finished");
@@ -103,27 +105,27 @@ public class Superbroom : Weapon, IMelee
 		weaponHitboxCollisionShape.SetDeferred("disabled", isCheckingForCollision);
 	}
 
-	private void OnAreaEnter(Node body)
-	{
-		if (body is IEnemy || body is Quicoin) //Quicoin for testing only.
-		{
-			GD.Print("ENTERED");
-			bodiesInsideDetectionRange.Add((Node2D)body);
-		}
-	}
+	//private void OnAreaEnter(Node body)
+	//{
+	//	if (body is IEnemy || body is Quicoin) //Quicoin for testing only.
+	//	{
+	//		GD.Print("ENTERED");
+	//		bodiesInsideDetectionRange.Add((Node2D)body);
+	//	}
+	//}
 
-	private void OnAreaExit(Node body)
-	{
-		GD.Print("EXIT");
-		int bodyIndex = -1;
-		for(int i = 0; i < bodiesInsideDetectionRange.Count; i++)
-		{
-			if (bodiesInsideDetectionRange[i].Name.Equals(body.Name))
-				bodyIndex = i;
-		}
-		if (bodyIndex != -1)
-			bodiesInsideDetectionRange.RemoveAt(bodyIndex);
-		else
-			return;
-	}
+	//private void OnAreaExit(Node body)
+	//{
+	//	GD.Print("EXIT");
+	//	int bodyIndex = -1;
+	//	for(int i = 0; i < bodiesInsideDetectionRange.Count; i++)
+	//	{
+	//		if (bodiesInsideDetectionRange[i].Name.Equals(body.Name))
+	//			bodyIndex = i;
+	//	}
+	//	if (bodyIndex != -1)
+	//		bodiesInsideDetectionRange.RemoveAt(bodyIndex);
+	//	else
+	//		return;
+	//}
 }

@@ -10,6 +10,7 @@ public class Player : KinematicBody2D
 
 	private const string MainStatsUIPath = "/root/Map/CanvasLayer/MainStatsUI";
 	private const string TurnAxisPath = "/root/Map/Player/TurnAxis";
+	private const string MeeleCollisionDetectorPath = "/MeleeCollisionDetector";
 
 	[Export]
 	private float MAX_SPEED = 2.9f;
@@ -42,7 +43,7 @@ public class Player : KinematicBody2D
 		turnAxis = GetNode<Position2D>(TurnAxisPath);
 		projectileSpawnPoint = (Position2D)turnAxis.GetChild(0);
 
-		WeaponManager = new WeaponManager(turnAxis ,projectileSpawnPoint);
+		WeaponManager = new WeaponManager(turnAxis ,projectileSpawnPoint, (MeleeCollisionDetector)GetNode<Node2D>(GetPath() + MeeleCollisionDetectorPath));
 		AddChild(WeaponManager);
 
 		Rng = new RandomNumberGenerator();
