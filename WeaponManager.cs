@@ -82,6 +82,16 @@ namespace Gerbil
 		}
 
 		/// <summary>
+		/// Updates Melee collision parameters with the current held weapon.
+		/// </summary>
+		private void UpdateMeleeCollision()
+		{
+			MeleeWeapon meleeWeapon = (MeleeWeapon)GetCurrentWeapon();
+			MeleeCollisionDetector.CircleRadius = meleeWeapon.AttackCircleRadius;
+			MeleeCollisionDetector.CollisionArc = meleeWeapon.CollisionArc;
+		}
+
+		/// <summary>
 		/// Adds a new weapon to the weapon manager.
 		/// </summary>
 		/// <param name="weapon">New weapon to add.</param>
@@ -98,6 +108,8 @@ namespace Gerbil
 					weaponInventoryUI.AddWeapon(weapon, i);
 					isWeaponCooldownComplete[i] = true;
 					RotateWeaponDisplayPoint();
+					if (GetCurrentWeapon() is MeleeWeapon)
+						UpdateMeleeCollision();
 					return;
 				}
 			}
@@ -139,6 +151,8 @@ namespace Gerbil
 			if (weaponInventory[currentSelection] != null)
 				weaponInventory[currentSelection].RootNode.Visible = true;
 			RotateWeaponDisplayPoint();
+			if (GetCurrentWeapon() is MeleeWeapon)
+				UpdateMeleeCollision();
 			return (weaponInventory[currentSelection] != null);
 		}
 
@@ -158,6 +172,8 @@ namespace Gerbil
 			if (weaponInventory[currentSelection] != null)
 				weaponInventory[currentSelection].RootNode.Visible = true;
 			RotateWeaponDisplayPoint();
+			if (GetCurrentWeapon() is MeleeWeapon)
+				UpdateMeleeCollision();
 			return (weaponInventory[currentSelection] != null);
 		}
 	 
@@ -169,10 +185,6 @@ namespace Gerbil
 				Weapon weapon = GetCurrentWeapon();
 				if (weapon is IMelee)
 				{
-					//TEST 
-					MeleeCollisionDetector.CircleRadius = 30;
-					MeleeCollisionDetector.CollisionArc = Mathf.Deg2Rad(90f);
-					//
 					isWeaponCooldownComplete[selectedWeapon] = false;
 					IMelee meleeWeapon = (IMelee)weapon;
 					await meleeWeapon.Attack();

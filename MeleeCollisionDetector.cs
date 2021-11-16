@@ -27,10 +27,6 @@ public class MeleeCollisionDetector : Area2D
 	private CircleShape2D circleShape;
 	private List<Node2D> bodiesInsideCircle;
 
-
-	//TODO for testing only
-	int TEST = 0;
-
 	public override void _Ready()
 	{
 		bodiesInsideCircle = new List<Node2D>();
@@ -51,27 +47,23 @@ public class MeleeCollisionDetector : Area2D
 		foreach (Node2D body in bodiesInsideCircle)
 		{
 			Vector2 collidingBodyDirection = (body.GlobalPosition - GlobalPosition).Normalized(); 
-			//GD.Print("COIN " + collidingBodyDirection.ToString());
 			if (weaponAttackCenter.Dot(collidingBodyDirection) > cosineArcDegree)
 			{
-				GD.Print(TEST);
-				TEST++;
+				GD.Print("Hit");
 			}
 		}
 	}
 
 	private void OnAreaEnter(Node body)
 	{
-		if (body is IEnemy || body is Quicoin) //Quicoin for testing only.
+		if (body is IEnemy || body is Quicoin) //TODO: Quicoin for testing only.
 		{
-			GD.Print("ENTERED");
 			bodiesInsideCircle.Add((Node2D)body);
 		}
 	}
 
 	private void OnAreaExit(Node body)
 	{
-		GD.Print("EXIT");
 		int bodyIndex = -1;
 		for (int i = 0; i < bodiesInsideCircle.Count; i++)
 		{
