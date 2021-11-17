@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Gerbil;
+using Gerbil.Props;
 using System.Collections.Generic;
 
 public class MeleeCollisionDetector : Area2D
@@ -49,14 +50,18 @@ public class MeleeCollisionDetector : Area2D
 			Vector2 collidingBodyDirection = (body.GlobalPosition - GlobalPosition).Normalized(); 
 			if (weaponAttackCenter.Dot(collidingBodyDirection) > cosineArcDegree)
 			{
-				GD.Print("Hit");
+				if (body is IBreakable)
+				{
+					IBreakable breakableProp = (IBreakable)body;
+					breakableProp.Break();
+				}
 			}
 		}
 	}
 
 	private void OnAreaEnter(Node body)
 	{
-		if (body is IEnemy || body is Quicoin) //TODO: Quicoin for testing only.
+		if (body is IEnemy || body is IBreakable)
 		{
 			bodiesInsideCircle.Add((Node2D)body);
 		}

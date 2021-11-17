@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Quicoin : KinematicBody2D
+public class Quicoin : RigidBody2D
 {
 	// Declare member variables here. Examples:
 	// private int a = 2;

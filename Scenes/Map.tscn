@@ -13,7 +13,7 @@
 [ext_resource path="res://Tiles/WarehouseTile6EasterEgg.png" type="Texture" id=11]
 [ext_resource path="res://Tiles/Wall.png" type="Texture" id=12]
 [ext_resource path="res://Props/Pah.png" type="Texture" id=13]
-[ext_resource path="res://Props/Jag.png" type="Texture" id=14]
+[ext_resource path="res://Props/Jag.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Scenes/WeaponInventoryUI.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Tiles/WallCorner1.png" type="Texture" id=16]
 [ext_resource path="res://Tiles/WallCorner2.png" type="Texture" id=17]
@@ -382,9 +382,20 @@ __meta__ = {
 [node name="Superbroom" parent="." instance=ExtResource( 4 )]
 position = Vector2( 101, 100 )
 
-[node name="Jag" type="Sprite" parent="."]
-position = Vector2( -56, -56 )
-texture = ExtResource( 14 )
-
 [node name="Quicoin" parent="." instance=ExtResource( 25 )]
 position = Vector2( 40, -40 )
+
+[node name="Jag" parent="." instance=ExtResource( 14 )]
+position = Vector2( -192, 24 )
+
+[node name="Jag2" parent="." instance=ExtResource( 14 )]
+position = Vector2( -88, -32 )
+
+[node name="Jag3" parent="." instance=ExtResource( 14 )]
+position = Vector2( -120, 24 )
+
+[node name="Jag4" parent="." instance=ExtResource( 14 )]
+position = Vector2( -160, -16 )
+
+[node name="Jag5" parent="." instance=ExtResource( 14 )]
+position = Vector2( -104, -32 )

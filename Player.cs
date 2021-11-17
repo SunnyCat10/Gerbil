@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using Gerbil;
-using Gerbil.Weapons;
+using Gerbil.Props;
 
 public class Player : KinematicBody2D
 {
@@ -72,7 +72,7 @@ public class Player : KinematicBody2D
 					Weapon pickedWeapon = weapon.OnPickUp(this);
 					WeaponManager.AddWeapon(pickedWeapon);
 				}
-				else if (collision.Collider is TileMap)
+				else if (collision.Collider is TileMap || collision.Collider is IBreakable)
 					return;
 				else
 					OnEnemyCollision();

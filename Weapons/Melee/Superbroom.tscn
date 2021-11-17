@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Weapons/Melee/Superbroom.cs" type="Script" id=2]
 [ext_resource path="res://Weapons/Melee/Sword.png" type="Texture" id=3]
@@ -51,9 +51,6 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 16.1097, 6.95669 )
 
-[sub_resource type="CircleShape2D" id=11]
-radius = 30.0
-
 [node name="Superbroom" type="KinematicBody2D"]
 z_index = 2
 script = ExtResource( 2 )
@@ -66,8 +63,3 @@ animation = "Attack"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -14, 0 )
 shape = SubResource( 10 )
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource( 11 )
