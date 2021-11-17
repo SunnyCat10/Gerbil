@@ -30,12 +30,14 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=6]
 radius = 4.11421
 
-[node name="Quicoin" type="KinematicBody2D"]
+[node name="Quicoin" type="RigidBody2D"]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 5 )
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 6 )
+disabled = true

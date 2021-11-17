@@ -1,21 +1,38 @@
 using Godot;
 using System;
+using Gerbil;
 
 public class Quicoin : RigidBody2D
 {
-	// Declare member variables here. Examples:
-	// private int a = 2;
-	// private string b = "text";
+	private const int CoinMinSpeed = 8;
+	private const int CoinMaxSpeed = 12;
+	private const int CoinSpeedModifier = 10;
+	private const float MinRotation = 0f;
+	private const float MaxRotation = 3.14f;
+	private const float MinFlyingTime = 1f;
+	private const float MaxFlyingTime = 10f;
+	private const float FlyingTimeModifier = 0.1f;
 
-	// Called when the node enters the scene tree for the first time.
-	//public override void _Ready()
-	//{
-	//	Connect("body_entered", this, nameof(OnBodyEntered));
-	//}
+	private float randomSpeed;
+	private float randomRotation;
+	private float randomFlyingTime;
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+	public override void _Ready()
+	{
+		randomSpeed = CoinSpeedModifier * RandomnessManager.RandomNumberGenerator.RandiRange(CoinMinSpeed, CoinMaxSpeed);
+		randomRotation = -RandomnessManager.RandomNumberGenerator.RandfRange(MinRotation, MaxRotation); // - To turn the directions up instead of down.
+		randomFlyingTime = FlyingTimeModifier * RandomnessManager.RandomNumberGenerator.RandfRange(MinFlyingTime, MaxFlyingTime);
+	}
+
+	public void Lunch()
+	{
+		ApplyImpulse(new Vector2(), new Vector2(randomSpeed, 0).Rotated(randomRotation));
+		StopFalling();
+	}
+
+	private async void StopFalling()
+	{
+		await ToSignal(GetTree().CreateTimer(randomFlyingTime), "timeout");
+		Sleeping = true;
+	}
 }
