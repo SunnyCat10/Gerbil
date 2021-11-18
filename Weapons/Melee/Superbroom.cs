@@ -37,7 +37,8 @@ public class Superbroom : MeleeWeapon, IMelee
 	{
 		WeaponAnimatedSprite.Play("Attack");
 		playerWeaponManager.MeleeCollisionDetector.DetectCollision(
-			(playerWeaponManager.WeaponDisplayPoint.GlobalPosition - playerWeaponManager.WeaponRotationAxis.GlobalPosition).Normalized());
+			(playerWeaponManager.WeaponDisplayPoint.GlobalPosition - playerWeaponManager.WeaponRotationAxis.GlobalPosition).Normalized(),
+			Damage);
 		await ToSignal(WeaponAnimatedSprite, "animation_finished");
 		WeaponAnimatedSprite.Play("Back");
 		await ToSignal(WeaponAnimatedSprite, "animation_finished");

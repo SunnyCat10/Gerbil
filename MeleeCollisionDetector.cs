@@ -43,7 +43,7 @@ public class MeleeCollisionDetector : Area2D
 			bodiesInsideCircle = new List<Node2D>();
 	}
 
-	public void DetectCollision(Vector2 weaponAttackCenter)
+	public void DetectCollision(Vector2 weaponAttackCenter, int weaponDamage)
 	{
 		foreach (Node2D body in bodiesInsideCircle)
 		{
@@ -54,6 +54,11 @@ public class MeleeCollisionDetector : Area2D
 				{
 					IBreakable breakableProp = (IBreakable)body;
 					breakableProp.Break();
+				}
+				else if (body is IEnemy)
+				{
+					IEnemy enemy = (IEnemy)body;
+					enemy.OnHit(weaponDamage);
 				}
 			}
 		}
