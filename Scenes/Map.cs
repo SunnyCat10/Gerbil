@@ -10,7 +10,7 @@ public class Map : Node2D
 	private const int TileSize = 32;
 	private const int SpikeTrapID = 15;
 
-	private Vector2 tileMargin = new Vector2(TileSize/2 - 2, TileSize/2);
+	private Vector2 tileMargin = new Vector2(TileSize/2, TileSize/2);
 	private TileMap tileMap;
 	private PackedScene spikeTrapInstance;
 

@@ -43,7 +43,7 @@ public class Jag : StaticBody2D, IBreakable
 		{
 			Quicoin quicoin = (Quicoin)coinScene.Instance();
 			quicoin.GlobalPosition = GlobalPosition;
-			//GetParent().AddChild(quicoin);
+			//GetParent().AddChild(quicoin); //TODO: It might be possible to stack the addChild calls to array and ait only once for the next idle_frame!
 			GetParent().CallDeferred("add_child", quicoin);
 			await ToSignal(GetTree(), "idle_frame");
 			quicoin.Lunch();	
