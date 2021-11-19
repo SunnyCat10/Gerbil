@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Gerbil;
+using Gerbil.Props;
 
 public class Staple : RigidBody2D, IProjectile
 {
@@ -37,6 +38,11 @@ public class Staple : RigidBody2D, IProjectile
 		{
 			IEnemy enemy = (IEnemy)body;
 			enemy.OnHit(_damage);
+		}
+		else if (body is IBreakable)
+		{
+			IBreakable prop = (IBreakable)body;
+			prop.Break();
 		}
 		else
 		{

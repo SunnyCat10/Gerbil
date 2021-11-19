@@ -333,7 +333,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 15/z_index = 0
 
 [sub_resource type="ConvexPolygonShape2D" id=10]
-points = PoolVector2Array( 0, 0, 32, 0, 32, 64, 0, 64 )
+points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 
 [sub_resource type="TileSet" id=11]
 0/name = "CobbleWall1.png 0"
@@ -363,8 +363,6 @@ script = ExtResource( 24 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0.735786, 0.735785 )
-collision_layer = 5
-collision_mask = 5
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

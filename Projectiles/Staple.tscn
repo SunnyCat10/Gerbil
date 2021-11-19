@@ -66,5 +66,5 @@ shape = SubResource( 1 )
 z_index = 2
 frames = SubResource( 11 )
 animation = "Flying"
-frame = 8
+frame = 6
 playing = true

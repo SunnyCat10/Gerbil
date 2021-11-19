@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Gerbil;
 using Gerbil.Props;
+using Gerbil.Consumables;
 
 public class Player : KinematicBody2D
 {

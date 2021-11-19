@@ -36,14 +36,16 @@ public class Jag : StaticBody2D, IBreakable
 		QueueFree();
 	}
 
-	private void SpawnCoins()
+	private async void SpawnCoins()
 	{
 		int coinDropAmount = RandomnessManager.RandomNumberGenerator.RandiRange(MinCoinDrop, MaxCoinDrop);
 		for (int i = 0; i < coinDropAmount; i++)
 		{
 			Quicoin quicoin = (Quicoin)coinScene.Instance();
 			quicoin.GlobalPosition = GlobalPosition;
-			GetParent().AddChild(quicoin);
+			//GetParent().AddChild(quicoin);
+			GetParent().CallDeferred("add_child", quicoin);
+			await ToSignal(GetTree(), "idle_frame");
 			quicoin.Lunch();	
 		}
 	}
