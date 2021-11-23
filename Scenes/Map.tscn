@@ -384,6 +384,7 @@ tile_data = PoolIntArray( -393227, 12, 0, -458742, 13, 0, -327691, 12, 0, -32769
 position = Vector2( 0, 60 )
 
 [node name="Superbroom" parent="." instance=ExtResource( 4 )]
+visible = false
 position = Vector2( 101, 100 )
 
 [node name="Jag" parent="." instance=ExtResource( 14 )]
