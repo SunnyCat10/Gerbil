@@ -9,19 +9,19 @@ public class Inverter : BaseNode
 {
 	BaseNode child;
 
-    public override void _Ready()
-    {
-        child = (BaseNode)GetChild(0);
-    }
+	public override void _Ready()
+	{
+		child = (BaseNode)GetChild(0);
+	}
 
-    public override State Tick(Node2D actor, Dictionary blackboard)
-    {
-        State respone = child.Tick(actor, blackboard);
-        if (respone == State.Succeeded)
-            return State.Failed;
-        else if (respone == State.Failed)
-            return State.Succeeded;
-        else
-            return State.Running;
-    }  
+	public override State Tick(Node2D actor, Dictionary blackboard)
+	{
+		State respone = child.Tick(actor, blackboard);
+		if (respone == State.Succeeded)
+			return State.Failed;
+		else if (respone == State.Failed)
+			return State.Succeeded;
+		else
+			return State.Running;
+	}
 }
