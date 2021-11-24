@@ -1,15 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Enemies/Textures/Protobob.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Warrior.cs" type="Script" id=2]
-[ext_resource path="res://BehaviourTree/Root.tscn" type="PackedScene" id=3]
 [ext_resource path="res://BehaviourTree/Sequence.tscn" type="PackedScene" id=4]
-[ext_resource path="res://BehaviourTree/Selector.tscn" type="PackedScene" id=5]
-[ext_resource path="res://BehaviourTree/Selector.cs" type="Script" id=6]
+[ext_resource path="res://BehaviourTree/BehaviourRoots/WarriorBehaviour.tscn" type="PackedScene" id=5]
 [ext_resource path="res://BehaviourTree/InRange.tscn" type="PackedScene" id=7]
-[ext_resource path="res://BehaviourTree/InRange.cs" type="Script" id=8]
 [ext_resource path="res://BehaviourTree/Print.tscn" type="PackedScene" id=9]
-[ext_resource path="res://BehaviourTree/Print.cs" type="Script" id=10]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -36,15 +32,11 @@ playing = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
 
-[node name="Root" parent="." instance=ExtResource( 3 )]
+[node name="WarriorBehaviour" parent="." instance=ExtResource( 5 )]
 
-[node name="Sequence" parent="Root" instance=ExtResource( 4 )]
+[node name="Sequence" parent="WarriorBehaviour" instance=ExtResource( 4 )]
 
-[node name="Selector" parent="Root" instance=ExtResource( 5 )]
-script = ExtResource( 6 )
+[node name="InRange" parent="WarriorBehaviour/Sequence" instance=ExtResource( 7 )]
 
-[node name="InRange" parent="Root" instance=ExtResource( 7 )]
-script = ExtResource( 8 )
-
-[node name="Print" parent="Root" instance=ExtResource( 9 )]
-script = ExtResource( 10 )
+[node name="Print" parent="WarriorBehaviour/Sequence" instance=ExtResource( 9 )]
+message = "RAFT"

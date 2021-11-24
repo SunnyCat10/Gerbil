@@ -7,12 +7,12 @@ using Godot.Collections;
 /// </summary>
 public class Print : BaseNode
 {
-    [Export]
-    private string message = "Default";
+	[Export]
+	private string message = "Default";
 
-    public override State Tick(Node2D actor, Dictionary blackboard)
-    {
-        GD.Print(message);
-        return State.Succeeded;
-    }
+	public override State Tick(Node2D actor, Dictionary blackboard)
+	{
+		GD.Print(message);
+		return State.Succeeded;
+	}
 }

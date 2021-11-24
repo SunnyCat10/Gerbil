@@ -1,28 +1,39 @@
 using Godot;
-using System;
-using System.Threading.Tasks;
 using Gerbil.BehaviourTree;
 using Godot.Collections;
 
-public class Root : Node
+/// <summary>
+/// Base template for behaviour root nodes.
+/// </summary>
+public abstract class Root : Node
 {
-	private Dictionary blackboard;
-	private BaseNode child;
-	private Node2D actor;
+	/// <summary>
+	/// Godot Dicitionary for storing info that can be read by the behavior nodes.
+	/// </summary>
+	protected Dictionary Blackboard { get; set; }
+	
+	/// <summary>
+	/// Child behavior node of the root.
+	/// </summary>
+	protected BaseNode Child { get; set; }
 
-	public override void _Ready()
-	{
-		blackboard = new Dictionary();
-		child = (BaseNode)GetChild(0);
-		actor = (Node2D)GetParent();
+	/// <summary>
+	/// Actor node that can act based on the behavior tree.
+	/// </summary>
+	protected Node2D Actor { get; set; }
+
+	/// <summary>
+	/// Default settings for the root properties. Should be called on the OnReady method.
+	/// </summary>
+	protected void SetUpRoot()
+    {
+		Blackboard = new Dictionary();
+		Child = (BaseNode)GetChild(0);
+		Actor = (Node2D)GetParent();
 	}
 
-	public override void _Process(float delta)
-	{
-		if (blackboard.Contains("delta"))
-			blackboard["delta"] = delta;
-		else
-			blackboard.Add("delta", delta);
-		child.Tick(actor, blackboard);
-	}
+	/// <summary>
+	/// Updates the blackboard with relevant information.
+	/// </summary>
+	protected abstract void UpdateBlackboard();
 }
