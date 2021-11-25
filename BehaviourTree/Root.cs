@@ -26,7 +26,7 @@ public abstract class Root : Node
 	/// Default settings for the root properties. Should be called on the OnReady method.
 	/// </summary>
 	protected void SetUpRoot()
-    {
+	{
 		Blackboard = new Dictionary();
 		Child = (BaseNode)GetChild(0);
 		Actor = (Node2D)GetParent();
