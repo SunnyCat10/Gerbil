@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Enemies/Textures/Protobob.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Warrior.cs" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://BehaviourTree/BehaviourRoots/WarriorBehaviour.tscn" type="PackedScene" id=5]
 [ext_resource path="res://BehaviourTree/Repeat.tscn" type="PackedScene" id=6]
 [ext_resource path="res://BehaviourTree/InRange.tscn" type="PackedScene" id=7]
+[ext_resource path="res://BehaviourTree/Shot.tscn" type="PackedScene" id=8]
 [ext_resource path="res://BehaviourTree/Print.tscn" type="PackedScene" id=9]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -46,3 +47,5 @@ shape = SubResource( 3 )
 
 [node name="Print" parent="WarriorBehaviour/Cooldown/Sequence/Repeat" instance=ExtResource( 9 )]
 message = "RAFT"
+
+[node name="Shot" parent="WarriorBehaviour/Cooldown/Sequence/Repeat" instance=ExtResource( 8 )]
