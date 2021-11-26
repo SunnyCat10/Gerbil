@@ -1,20 +1,20 @@
 using Godot;
-using System;
 using Gerbil.BehaviourTree;
 using Godot.Collections;
 
+/// <summary>
+/// Repeat the child node behavior by set amount.
+/// </summary>
 public class Repeat : BaseNode
 {
 	[Export]
 	private int amount = 3;
 
 	private int counter = 0;
-	private bool isRepeating = false;
 	private BaseNode child;
 
 	public override void _Ready()
 	{	
-		isRepeating = true;
 		child = (BaseNode)GetChild(0);
 	}
 

@@ -25,14 +25,16 @@ public class Cooldown : BaseNode
 			return State.Running;
 		}
 		State childState = child.Tick(actor, blackboard);
-		if (childState == State.Failed)
-			return State.Failed;
-		else
+		if (childState == State.Succeeded)
 		{
 			GetTree().CreateTimer(duration).Connect("timeout", this, nameof(Timeout));
 			isInCooldown = true;
 			return State.Succeeded;
-		}	
+		}
+		else
+		{
+			return childState;
+		}
 	}
 
 	public void Timeout()
