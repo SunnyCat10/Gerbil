@@ -35,11 +35,11 @@ shape = SubResource( 3 )
 
 [node name="WarriorBehaviour" parent="." instance=ExtResource( 5 )]
 
-[node name="Sequence" parent="WarriorBehaviour" instance=ExtResource( 4 )]
+[node name="Cooldown" parent="WarriorBehaviour" instance=ExtResource( 3 )]
 
-[node name="InRange" parent="WarriorBehaviour/Sequence" instance=ExtResource( 7 )]
+[node name="Sequence" parent="WarriorBehaviour/Cooldown" instance=ExtResource( 4 )]
 
-[node name="Cooldown" parent="WarriorBehaviour/Sequence" instance=ExtResource( 3 )]
+[node name="InRange" parent="WarriorBehaviour/Cooldown/Sequence" instance=ExtResource( 7 )]
 
-[node name="Print" parent="WarriorBehaviour/Sequence" instance=ExtResource( 9 )]
+[node name="Print" parent="WarriorBehaviour/Cooldown/Sequence" instance=ExtResource( 9 )]
 message = "RAFT"
