@@ -1,21 +1,22 @@
 using Godot;
-using System;
+using Gerbil.BehaviourTree.Interfaces;
+using Gerbil.BehaviourTree;
+using Godot.Collections;
 
-public class Shot : Node
+public class Shot : BaseNode
 {
-	// Declare member variables here. Examples:
-	// private int a = 2;
-	// private string b = "text";
-
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+	[Export]
+	private string targetKey = "target";
+	
+	public override State Tick(Node2D actor, Dictionary blackboard)
 	{
-		
+		if (actor is IActor)
+		{
+			Node2D target = (Node2D)blackboard[targetKey];
+			IActor actorInterface = (IActor)actor;
+			actorInterface.Shoot(target.GlobalPosition - actor.GlobalPosition);
+			return State.Succeeded;
+		}
+		return State.Failed;
 	}
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }
