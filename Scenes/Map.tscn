@@ -387,19 +387,13 @@ position = Vector2( 0, 60 )
 position = Vector2( 101, 100 )
 
 [node name="Jag" parent="." instance=ExtResource( 14 )]
-position = Vector2( -184, 16 )
-
-[node name="Jag2" parent="." instance=ExtResource( 14 )]
-position = Vector2( -88, -32 )
+position = Vector2( -192, 64 )
 
 [node name="Jag3" parent="." instance=ExtResource( 14 )]
-position = Vector2( -120, 24 )
+position = Vector2( 272, -160 )
 
 [node name="Jag4" parent="." instance=ExtResource( 14 )]
-position = Vector2( -160, -16 )
-
-[node name="Jag5" parent="." instance=ExtResource( 14 )]
-position = Vector2( -104, -32 )
+position = Vector2( 256, -144 )
 
 [node name="TileMap32x64" type="TileMap" parent="."]
 tile_set = SubResource( 11 )

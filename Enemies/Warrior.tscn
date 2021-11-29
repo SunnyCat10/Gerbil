@@ -37,29 +37,59 @@ shape = SubResource( 3 )
 
 [node name="WarriorBehaviour" parent="." instance=ExtResource( 5 )]
 
-[node name="Cooldown" parent="WarriorBehaviour" instance=ExtResource( 3 )]
+[node name="Sequence" parent="WarriorBehaviour" instance=ExtResource( 4 )]
 
-[node name="Sequence" parent="WarriorBehaviour/Cooldown" instance=ExtResource( 4 )]
-
-[node name="InRange" parent="WarriorBehaviour/Cooldown/Sequence" instance=ExtResource( 7 )]
-detectionRange = 300.0
-
-[node name="Repeat2" parent="WarriorBehaviour/Cooldown/Sequence" instance=ExtResource( 6 )]
-
-[node name="Cooldown" parent="WarriorBehaviour/Cooldown/Sequence/Repeat2" instance=ExtResource( 3 )]
+[node name="Cooldown1" parent="WarriorBehaviour/Sequence" instance=ExtResource( 3 )]
 duration = 1.0
 
-[node name="Shot" parent="WarriorBehaviour/Cooldown/Sequence/Repeat2/Cooldown" instance=ExtResource( 8 )]
+[node name="Repeat" parent="WarriorBehaviour/Sequence/Cooldown1" instance=ExtResource( 6 )]
 
-[node name="Repeat" parent="WarriorBehaviour/Cooldown/Sequence" instance=ExtResource( 6 )]
-amount = 7
-
-[node name="Cooldown" parent="WarriorBehaviour/Cooldown/Sequence/Repeat" instance=ExtResource( 3 )]
+[node name="Cooldown" parent="WarriorBehaviour/Sequence/Cooldown1/Repeat" instance=ExtResource( 3 )]
 duration = 0.1
 
-[node name="Sequence" parent="WarriorBehaviour/Cooldown/Sequence/Repeat/Cooldown" instance=ExtResource( 4 )]
+[node name="Sequence" parent="WarriorBehaviour/Sequence/Cooldown1/Repeat/Cooldown" instance=ExtResource( 4 )]
 
-[node name="Print" parent="WarriorBehaviour/Cooldown/Sequence/Repeat/Cooldown/Sequence" instance=ExtResource( 9 )]
-message = "HERE"
+[node name="Print" parent="WarriorBehaviour/Sequence/Cooldown1/Repeat/Cooldown/Sequence" instance=ExtResource( 9 )]
+message = "Pulse"
 
-[node name="Shot" parent="WarriorBehaviour/Cooldown/Sequence/Repeat/Cooldown/Sequence" instance=ExtResource( 8 )]
+[node name="InRange" parent="WarriorBehaviour/Sequence/Cooldown1/Repeat/Cooldown/Sequence" instance=ExtResource( 7 )]
+detectionRange = 500.0
+
+[node name="Shot" parent="WarriorBehaviour/Sequence/Cooldown1/Repeat/Cooldown/Sequence" instance=ExtResource( 8 )]
+
+[node name="Cooldown2" parent="WarriorBehaviour/Sequence" instance=ExtResource( 3 )]
+duration = 1.0
+
+[node name="Repeat" parent="WarriorBehaviour/Sequence/Cooldown2" instance=ExtResource( 6 )]
+
+[node name="Cooldown" parent="WarriorBehaviour/Sequence/Cooldown2/Repeat" instance=ExtResource( 3 )]
+duration = 0.1
+
+[node name="Sequence" parent="WarriorBehaviour/Sequence/Cooldown2/Repeat/Cooldown" instance=ExtResource( 4 )]
+
+[node name="Print" parent="WarriorBehaviour/Sequence/Cooldown2/Repeat/Cooldown/Sequence" instance=ExtResource( 9 )]
+message = "Pulse"
+
+[node name="InRange" parent="WarriorBehaviour/Sequence/Cooldown2/Repeat/Cooldown/Sequence" instance=ExtResource( 7 )]
+detectionRange = 500.0
+
+[node name="Shot" parent="WarriorBehaviour/Sequence/Cooldown2/Repeat/Cooldown/Sequence" instance=ExtResource( 8 )]
+
+[node name="Cooldown3" parent="WarriorBehaviour/Sequence" instance=ExtResource( 3 )]
+duration = 1.0
+
+[node name="Repeat" parent="WarriorBehaviour/Sequence/Cooldown3" instance=ExtResource( 6 )]
+amount = 11
+
+[node name="Cooldown" parent="WarriorBehaviour/Sequence/Cooldown3/Repeat" instance=ExtResource( 3 )]
+duration = 0.05
+
+[node name="Sequence" parent="WarriorBehaviour/Sequence/Cooldown3/Repeat/Cooldown" instance=ExtResource( 4 )]
+
+[node name="Print" parent="WarriorBehaviour/Sequence/Cooldown3/Repeat/Cooldown/Sequence" instance=ExtResource( 9 )]
+message = "Pulse"
+
+[node name="InRange" parent="WarriorBehaviour/Sequence/Cooldown3/Repeat/Cooldown/Sequence" instance=ExtResource( 7 )]
+detectionRange = 500.0
+
+[node name="Shot" parent="WarriorBehaviour/Sequence/Cooldown3/Repeat/Cooldown/Sequence" instance=ExtResource( 8 )]
