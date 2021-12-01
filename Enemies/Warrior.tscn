@@ -9,7 +9,7 @@
 [ext_resource path="res://BehaviourTree/InRange.tscn" type="PackedScene" id=7]
 [ext_resource path="res://BehaviourTree/Shot.tscn" type="PackedScene" id=8]
 [ext_resource path="res://BehaviourTree/Print.tscn" type="PackedScene" id=9]
-[ext_resource path="res://BehaviourTree/Decorators/Inverter.tscn" type="PackedScene" id=10]
+[ext_resource path="res://BehaviourTree/ControlFlows/Selector.tscn" type="PackedScene" id=10]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -95,4 +95,4 @@ detectionRange = 500.0
 
 [node name="Shot" parent="WarriorBehaviour/Sequence/Cooldown3/Repeat/Cooldown/Sequence" instance=ExtResource( 8 )]
 
-[node name="Inverter" parent="WarriorBehaviour" instance=ExtResource( 10 )]
+[node name="Selector" parent="WarriorBehaviour" instance=ExtResource( 10 )]
