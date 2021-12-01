@@ -1,14 +1,14 @@
 using Godot;
 using Godot.Collections;
 
-namespace Gerbil.BehaviourTree.ControlFlows
-{
+namespace Gerbil.BehaviourTree.ControlFlows 
+{ 
 	/// <summary>
-	/// Processing the children in order, if one of them succeeded return succeeded state. if all failed return failed state.
-	/// Analagous with an OR gate.
+	/// Processing the children in order, if one of them failed return failed state. if all succeeded return succeeded state.
+	/// Analagous with an AND gate.
 	/// Turn on the random check mark in the editor to make the node process the children in random order.
 	/// </summary>
-	public class Selector : BaseNode
+	public class Sequence : BaseNode
 	{
 		[Export]
 		private bool random = false;
@@ -32,23 +32,23 @@ namespace Gerbil.BehaviourTree.ControlFlows
 				case State.Running:
 					return State.Running;
 				case State.Failed:
-					++currentRunningChild;
-					if (currentRunningChild == children.Count)
-					{
-						if (random)
-							children.Shuffle();
-						currentRunningChild = 0;
-						return State.Failed;
-					}
-					else
-						return State.Running;
-				case State.Succeeded:
 					if (random)
 						children.Shuffle();
 					currentRunningChild = 0;
+					return State.Failed;
+				case State.Succeeded:
+					++currentRunningChild;
+					if (currentRunningChild == children.Count) 
+					{
+						if (random)
+							children.Shuffle();
+					currentRunningChild = 0;
 					return State.Succeeded;
+					}
+					else
+						return State.Running;
 			}
 			return State.Failed;
-		}		
+		}
 	}
 }
