@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-namespace Gerbil.BehaviourTree.Selector
+namespace Gerbil.BehaviourTree.ControlFlows
 {
 	/// <summary>
 	/// Processing the children in order, if one of them succeeded return success. if all failed return failed.
