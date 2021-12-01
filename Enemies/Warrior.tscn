@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Enemies/Textures/Protobob.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Warrior.cs" type="Script" id=2]
+[ext_resource path="res://BehaviourTree/Decorators/Timer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://BehaviourTree/BehaviourRoots/WarriorBehaviour.tscn" type="PackedScene" id=5]
+[ext_resource path="res://BehaviourTree/Print.tscn" type="PackedScene" id=9]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -30,3 +32,7 @@ playing = true
 shape = SubResource( 3 )
 
 [node name="WarriorBehaviour" parent="." instance=ExtResource( 5 )]
+
+[node name="Cooldown" parent="WarriorBehaviour" instance=ExtResource( 3 )]
+
+[node name="Print" parent="WarriorBehaviour/Cooldown" instance=ExtResource( 9 )]
