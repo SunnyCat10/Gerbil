@@ -9,12 +9,12 @@ namespace Gerbil.BehaviourTree.Decorators
 	public class Timer : BaseNode
 	{
 		[Export]
-		float duration = 3f;
+		private float duration = 3f;
 
 		private bool readyToCountdown = true;
 		private bool isInCooldown = false;
 		private bool isWithoutChild = false;
-		BaseNode child;
+		private BaseNode child;
 
 		public override void _Ready()
 		{
@@ -54,9 +54,9 @@ namespace Gerbil.BehaviourTree.Decorators
 			isInCooldown = true;
 		}
 
-        private void OnTimeout()
-        {
-            isInCooldown = false;
-        }
-    }
+		private void OnTimeout()
+		{
+			isInCooldown = false;
+		}
+	}
 }
