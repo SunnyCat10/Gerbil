@@ -8,5 +8,7 @@ namespace Gerbil.BehaviourTree.Interfaces
     interface IActor
     {
         public void Shoot(Vector2 shootingDirection);
+
+        public void Attack(int attackNumber, Vector2 attackingDirection);
     }
 }

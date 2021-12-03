@@ -11,6 +11,9 @@ namespace Gerbil.BehaviourTree.Decorators
 		[Export]
 		private float duration = 3f;
 
+		[Export]
+		private bool returnFailedOnCooldown = false;
+
 		private bool readyToCountdown = true;
 		private bool isInCooldown = false;
 		private bool isWithoutChild = false;
@@ -33,7 +36,12 @@ namespace Gerbil.BehaviourTree.Decorators
 				return State.Running;
 			}
 			if (isInCooldown)
-				return State.Running;
+			{
+				if (returnFailedOnCooldown)
+					return State.Failed;
+				else
+					return State.Running;
+			}
 			State childState = child.Tick(actor, blackboard);
 			switch (childState)
 			{
