@@ -16,7 +16,9 @@ public class Warrior : Enemy, IEnemy, IActor
 	private const int MaxHealth = 100;
 
 	private bool IsCharging = false;
-	private Vector2 chargeDirection;
+	private Vector2 movementDirection;
+	private bool IsMoving = false;
+	
 
 	public override void _Ready()
 	{
@@ -31,9 +33,9 @@ public class Warrior : Enemy, IEnemy, IActor
 	public override void _PhysicsProcess(float delta)
 	{
 		if (IsCharging)
-		{
-			MoveAndSlide(chargeDirection * delta * 10000f * 3);
-		}
+			MoveAndSlide(movementDirection * delta * 10000f * 3);
+		else if (IsMoving)
+			MoveAndSlide(movementDirection * delta * 10000f);
 	}
 
 	public void Shoot(Vector2 shootingDirection)
@@ -60,7 +62,15 @@ public class Warrior : Enemy, IEnemy, IActor
 
 	private async void ChargedAttack(Vector2 attackingDirection)
 	{
-		chargeDirection = attackingDirection;
+		movementDirection = attackingDirection;
+		IsCharging = true;
+		await ToSignal(GetTree().CreateTimer(1f), "timeout");
+		IsCharging = false;
+	}
+
+	public async void Move(Vector2 direction)
+	{
+		movementDirection = direction;
 		IsCharging = true;
 		await ToSignal(GetTree().CreateTimer(1f), "timeout");
 		IsCharging = false;
