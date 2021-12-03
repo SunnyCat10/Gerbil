@@ -16,8 +16,7 @@ public class Warrior : Enemy, IEnemy, IActor
 	private const int MaxHealth = 100;
 
 	private bool IsCharging = false;
-	private Vector2 chargeStartPosition;
-	private Vector2 chargeEndPosition;
+	private Vector2 chargeDirection;
 
 	public override void _Ready()
 	{
@@ -29,15 +28,15 @@ public class Warrior : Enemy, IEnemy, IActor
 		projectileScene = ResourceLoader.Load<PackedScene>(ProjectileScenePath);
 	}
 
-    public override void _PhysicsProcess(float delta)
-    {
+	public override void _PhysicsProcess(float delta)
+	{
 		if (IsCharging)
-        {
+		{
+			MoveAndSlide(chargeDirection * delta * 10000f * 3);
+		}
+	}
 
-        }
-    }
-
-    public void Shoot(Vector2 shootingDirection)
+	public void Shoot(Vector2 shootingDirection)
 	{
 		RigidBody2D projectile = (RigidBody2D)projectileScene.Instance();
 		projectile.GlobalPosition = GlobalPosition;
@@ -60,7 +59,8 @@ public class Warrior : Enemy, IEnemy, IActor
 	}
 
 	private async void ChargedAttack(Vector2 attackingDirection)
-    {
+	{
+		chargeDirection = attackingDirection;
 		IsCharging = true;
 		await ToSignal(GetTree().CreateTimer(1f), "timeout");
 		IsCharging = false;

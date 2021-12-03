@@ -18,7 +18,7 @@ namespace Gerbil.BehaviourTree.Actions
 			{
 				Node2D target = (Node2D)blackboard[targetKey];
 				IActor actorInterface = (IActor)actor;
-				actorInterface.Attack(AttackNumber, target.GlobalPosition - actor.GlobalPosition);
+				actorInterface.Attack(AttackNumber, (target.GlobalPosition - actor.GlobalPosition).Normalized());
 				return State.Succeeded;
 			}
 			else
