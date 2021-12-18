@@ -1,14 +1,15 @@
 using Godot;
-using System;
 using Gerbil.Enemies;
 using Gerbil;
 using Gerbil.BehaviourTree.Interfaces;
+using System.Collections.Generic;
 
 public class Warrior : Enemy, IEnemy, IActor
 {
 	private const int Damage = 1;
 	private PackedScene projectileScene;
 	private const string ProjectileScenePath = "res://Projectiles/EnemyProjectile.tscn";
+	private const string PathfindingPath = "/Pathfinding";
 
 	private const string CollisionShapePath = "/CollisionShape2D";
 	private const string AnimatedSpritePath = "/AnimatedSprite";
@@ -18,24 +19,46 @@ public class Warrior : Enemy, IEnemy, IActor
 	private bool IsCharging = false;
 	private Vector2 movementDirection;
 	private bool IsMoving = false;
-	
+	private Pathfinding pathfinding;
+
+	private Vector2 targetLocation;
+	private List<Vector2> debugPathList;
 
 	public override void _Ready()
 	{
 		Health = MaxHealth;
 		collisionShape = GetNode<CollisionShape2D>(GetPath() + CollisionShapePath);
 		animatedSprite = GetNode<AnimatedSprite>(GetPath() + AnimatedSpritePath);
+		pathfinding = (Pathfinding)GetNode<Node2D>(GetParent().GetPath() + PathfindingPath);
 		deathAnimationName = DeathAnimationName;
 
 		projectileScene = ResourceLoader.Load<PackedScene>(ProjectileScenePath);
+
+		debugPathList = new List<Vector2>();
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
-		if (IsCharging)
-			MoveAndSlide(movementDirection * delta * 10000f * 3);
-		else if (IsMoving)
-			MoveAndSlide(movementDirection * delta * 10000f);
+		//if (IsCharging)
+		//	MoveAndSlide(movementDirection * delta * 10000f * 2f);
+		if (IsMoving)
+		{	
+			Vector2[] path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
+			if (path.Length > 1)
+			{
+				//GD.Print(path[1].ToString());
+				//GD.Print("T: " + path[path.Length - 1].ToString());
+				MoveAndCollide((path[1] - GlobalPosition).Normalized() * delta * 100f);
+
+				debugPathList = new List<Vector2>();
+				foreach (Vector2 point in path)
+				{
+					debugPathList.Add(point);
+				}
+				pathfinding.DebugPath(debugPathList);
+			}
+		}
+		   // MoveAndSlide(movementDirection * delta * 10000f);
 	}
 
 	public void Shoot(Vector2 shootingDirection)
@@ -55,7 +78,7 @@ public class Warrior : Enemy, IEnemy, IActor
 			case 1:
 				ChargedAttack(attackingDirection);
 				break;
-			default:
+			default: 
 				break;
 		}
 	}
@@ -67,12 +90,20 @@ public class Warrior : Enemy, IEnemy, IActor
 		await ToSignal(GetTree().CreateTimer(1f), "timeout");
 		IsCharging = false;
 	}
-
-	public async void Move(Vector2 direction)
+	 
+	public void Move(Vector2 targetLocation, bool isRunning)
 	{
-		movementDirection = direction;
-		IsCharging = true;
-		await ToSignal(GetTree().CreateTimer(1f), "timeout");
-		IsCharging = false;
+		this.targetLocation = targetLocation;
+		if (isRunning)
+			IsMoving = true;
+		
+		
+		//GD.Print("HEYO");
+		//movementDirection = direction;
+
+		//MoveAndSlide(movementDirection * delta * 10000f)
+		//IsMoving = true;
+		////await ToSignal(GetTree(), "physics_frame");
+		//IsMoving = false;
 	}
 }

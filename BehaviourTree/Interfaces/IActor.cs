@@ -7,7 +7,7 @@ namespace Gerbil.BehaviourTree.Interfaces
     /// </summary>
     interface IActor
     {
-        public void Move(Vector2 direction);
+        public void Move(Vector2 direction, bool isRunning);
 
         public void Shoot(Vector2 shootingDirection);
 
