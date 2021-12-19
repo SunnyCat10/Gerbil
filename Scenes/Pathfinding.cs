@@ -12,6 +12,12 @@ public class Pathfinding : Node2D
 	private List<Vector2> debugPointsList;
 	private List<Vector2> debugPathList;
 
+	private Vector2[] TilesNearWall = new Vector2[4]{ 
+		new Vector2(0,-1),
+		new Vector2(1,0),
+		new Vector2(0,1),
+		new Vector2(-1,0)};
+
 	public override void _Ready()
 	{
 		astar = new AStar2D();
@@ -51,6 +57,7 @@ public class Pathfinding : Node2D
 		// Get array type
 		AddTraversableTiles(tiles);
 		ConnectTraversableTiles(tiles);
+		AddConstantObstacles();
 	}
 
 	private void AddTraversableTiles(Array array)
@@ -112,6 +119,58 @@ public class Pathfinding : Node2D
 	{
 		debugPathList = path;
 		Update();
+	}
+
+	/// <summary>
+	/// Add constant obstacles to the tile map that will remain in the same state during the whole game.
+	/// </summary>
+	private void AddConstantObstacles()
+	{
+		Array obstacles = GetTree().GetNodesInGroup("Obstacles");
+		foreach (var obstacleType in obstacles)
+		{
+			if (obstacleType is TileMap obstacleTypeTileMap)
+			{
+				Array tiles = obstacleTypeTileMap.GetUsedCells();
+				foreach (Vector2 tile in tiles)
+				{
+					int id = CreateIdForPoint(tile);
+					if (astar.HasPoint(id))
+					{
+						RemoveDiagonalsFromObstacle(tile); 
+						astar.SetPointDisabled(id, true);
+					}
+				}
+			}
+		}	
+	}
+
+	/// <summary>
+	/// Removes the diagonal paths from the tiles that are located at the four cardinal directions from the given tile.
+	///	   [][X][]
+	/// [X][Input][X]
+	///	   [][X][]
+	/// </summary>
+	/// <param name="tile">Obstacle tile</param>
+	private void RemoveDiagonalsFromObstacle(Vector2 tile)
+	{
+		int[] tilesNearbyIds = new int[4];
+		for (int i = 0; i < tilesNearbyIds.Length; i++)
+		{
+			GD.Print((tile + TilesNearWall[i]).ToString());
+			tilesNearbyIds[i] = CreateIdForPoint(tile + TilesNearWall[i]);
+		}
+		for (int i = 0; i < TilesNearWall.Length; i++) // Clear the paths from the tiles at the following indexes: [0][1]	[1][2]	[2][3]	[3][0]
+		{
+			if (i == 3) // Edge case where we taking the last and the first tile is the array.
+			{
+				if (astar.HasPoint(tilesNearbyIds[i]) && astar.HasPoint(tilesNearbyIds[0]))
+					astar.DisconnectPoints(tilesNearbyIds[i], tilesNearbyIds[0]);
+				break;
+			}
+			if (astar.HasPoint(tilesNearbyIds[i]) && astar.HasPoint(tilesNearbyIds[i+1]))
+				astar.DisconnectPoints(tilesNearbyIds[i], tilesNearbyIds[i + 1]);
+		}
 	}
 }
   
