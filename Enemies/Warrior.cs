@@ -3,6 +3,7 @@ using Gerbil.Enemies;
 using Gerbil;
 using Gerbil.BehaviourTree.Interfaces;
 using System.Collections.Generic;
+using Gerbil.Utilities;
 
 public class Warrior : Enemy, IEnemy, IActor
 {
@@ -53,7 +54,7 @@ public class Warrior : Enemy, IEnemy, IActor
 				{
 					debugPathList.Add(point);
 				}
-				pathfinding.DebugPath(debugPathList);
+				Debug.Instance.AddPathFindingPath(this.Name, debugPathList);
 			}
 		}
 	}

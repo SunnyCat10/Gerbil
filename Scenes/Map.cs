@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Gerbil.Utilities;
 
 public class Map : Node2D
 {
@@ -22,6 +23,9 @@ public class Map : Node2D
 		SetTraps(GetTrapLocations());
 		pathfinding = (Pathfinding)GetNode<Node2D>(GetPath() + PathFindingPath);
 		pathfinding.CreateNavigationMap(tileMap);
+
+		Debug.Instance.SetupGraphicOverly(this);
+		Debug.Instance.DisplayPathFinding(true);
 	}
 
 	private List<Vector2> GetTrapLocations()

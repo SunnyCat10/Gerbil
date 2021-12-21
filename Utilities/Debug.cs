@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 namespace Gerbil.Utilities
 {
@@ -28,8 +29,20 @@ namespace Gerbil.Utilities
             debugOverlay.Position = Vector2.Zero;
         }
 
+        public void DisplayPathFinding(bool display)
+        {
+            debugOverlay.DisplayPathfinding(display);
+        }
 
+        public void AddPathFindingPath(string entityName, List<Vector2> pathfindingPath)
+        {
+            debugOverlay.AddPathfindingPath(entityName, pathfindingPath);
+        }
 
+        public void RemovePathfindingPath(string entityName)
+        {
+            debugOverlay.RemovePathfindingPath(entityName);
+        }
 
     }
 }
