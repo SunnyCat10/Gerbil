@@ -46,8 +46,6 @@ public class Warrior : Enemy, IEnemy, IActor
 			Vector2[] path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
 			if (path.Length > 1)
 			{
-				//GD.Print(path[1].ToString());
-				//GD.Print("T: " + path[path.Length - 1].ToString());
 				MoveAndCollide((path[1] - GlobalPosition).Normalized() * delta * 100f);
 
 				debugPathList = new List<Vector2>();
@@ -58,7 +56,6 @@ public class Warrior : Enemy, IEnemy, IActor
 				pathfinding.DebugPath(debugPathList);
 			}
 		}
-		   // MoveAndSlide(movementDirection * delta * 10000f);
 	}
 
 	public void Shoot(Vector2 shootingDirection)
