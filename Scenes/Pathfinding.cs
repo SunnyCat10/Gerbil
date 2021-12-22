@@ -9,9 +9,6 @@ public class Pathfinding : Node2D
 	private Vector2 halfTileSize;
 	private Rect2 tileMapBounds;
 
-	private List<Vector2> debugPointsList;
-	private List<Vector2> debugPathList;
-
 	private Vector2[] TilesNearWall = new Vector2[4]{ 
 		new Vector2(0,-1),
 		new Vector2(1,0),
@@ -21,23 +18,6 @@ public class Pathfinding : Node2D
 	public override void _Ready()
 	{
 		astar = new AStar2D();
-		debugPointsList = new List<Vector2>();
-		debugPathList = new List<Vector2>();
-	}
-
-	public override void _Draw()
-	{
-		//foreach (Vector2 point in debugPointsList)
-		//{
-		//	DrawCircle(point, 3, Color.Color8(82, 62, 61));
-		//}
-		//for (int i = 0; i < debugPathList.Count - 1; i++)
-		//{	
-		//	DrawLine(debugPathList[i], debugPathList[i + 1], Color.Color8(71, 121, 152), 2);
-		//	DrawCircle(debugPathList[i], 3, Color.Color8(155, 197, 61));
-		//	if (i == debugPathList.Count - 2)
-		//		DrawCircle(debugPathList[debugPathList.Count - 1], 3, Color.Color8(155, 197, 61));
-		//}	
 	}
 
 	public void CreateNavigationMap(TileMap tilemap)
@@ -48,13 +28,6 @@ public class Pathfinding : Node2D
 
 		Array tiles = tilemap.GetUsedCells();
 
-		//foreach (Vector2 point in tiles)
-		//{
-		//	debugPointsList.Add(tilemap.MapToWorld(point) + halfTileSize);
-		//}
-		//Update();
-
-		// Get array type
 		AddTraversableTiles(tiles);
 		ConnectTraversableTiles(tiles);
 		AddConstantObstacles();
@@ -115,12 +88,6 @@ public class Pathfinding : Node2D
 		return pathInWorldCoordinates;
 	}
 
-	//public void DebugPath(List<Vector2> path)
-	//{
-	//	debugPathList = path;
-	//	Update();
-	//}
-
 	/// <summary>
 	/// Add constant obstacles to the tile map that will remain in the same state during the whole game.
 	/// </summary>
@@ -157,7 +124,6 @@ public class Pathfinding : Node2D
 		int[] tilesNearbyIds = new int[4];
 		for (int i = 0; i < tilesNearbyIds.Length; i++)
 		{
-			GD.Print((tile + TilesNearWall[i]).ToString());
 			tilesNearbyIds[i] = CreateIdForPoint(tile + TilesNearWall[i]);
 		}
 		for (int i = 0; i < TilesNearWall.Length; i++) // Clear the paths from the tiles at the following indexes: [0][1]	[1][2]	[2][3]	[3][0]
