@@ -98,14 +98,10 @@ public class Warrior : Enemy, IEnemy, IActor
 		this.targetLocation = targetLocation;
 		if (isRunning)
 			IsMoving = true;
-		
-		
-		//GD.Print("HEYO");
-		//movementDirection = direction;
+	}
 
-		//MoveAndSlide(movementDirection * delta * 10000f)
-		//IsMoving = true;
-		////await ToSignal(GetTree(), "physics_frame");
-		//IsMoving = false;
+	public bool RayCast(Vector2 target)
+	{
+		return false;
 	}
 }

@@ -12,5 +12,7 @@ namespace Gerbil.BehaviourTree.Interfaces
         public void Shoot(Vector2 shootingDirection);
 
         public void Attack(int attackNumber, Vector2 attackingDirection);
+
+        public bool RayCast(Vector2 target);
     }
 }
