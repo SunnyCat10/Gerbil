@@ -40,5 +40,6 @@ shape = SubResource( 3 )
 [node name="Inverter" parent="WarriorBehaviour/Sequence" instance=ExtResource( 6 )]
 
 [node name="InRange" parent="WarriorBehaviour/Sequence/Inverter" instance=ExtResource( 7 )]
+detectionRange = 50.0
 
 [node name="Move" parent="WarriorBehaviour/Sequence" instance=ExtResource( 11 )]

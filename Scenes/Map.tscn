@@ -188,24 +188,3 @@ script = ExtResource( 2 )
 
 [node name="Warrior" parent="." instance=ExtResource( 14 )]
 position = Vector2( -436.405, -275.978 )
-
-[node name="Warrior2" parent="." instance=ExtResource( 14 )]
-position = Vector2( -435.484, 269.319 )
-
-[node name="Warrior3" parent="." instance=ExtResource( 14 )]
-position = Vector2( 430.936, -271.856 )
-
-[node name="Warrior4" parent="." instance=ExtResource( 14 )]
-position = Vector2( 149.119, -255.964 )
-
-[node name="Warrior5" parent="." instance=ExtResource( 14 )]
-position = Vector2( 385.379, 266.351 )
-
-[node name="Warrior6" parent="." instance=ExtResource( 14 )]
-position = Vector2( 152.297, 261.054 )
-
-[node name="Warrior7" parent="." instance=ExtResource( 14 )]
-position = Vector2( -389.088, -81.1526 )
-
-[node name="Warrior8" parent="." instance=ExtResource( 14 )]
-position = Vector2( -288.439, -201.931 )

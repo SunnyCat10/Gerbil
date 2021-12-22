@@ -54,9 +54,13 @@ public class Warrior : Enemy, IEnemy, IActor
 				{
 					debugPathList.Add(point);
 				}
-				Debug.Instance.AddPathFindingPath(this.Name, debugPathList);
+				Debug.Instance.AddPathFindingPath(Name, debugPathList);
 			}
+			IsMoving = false;
 		}
+
+
+
 	}
 
 	public void Shoot(Vector2 shootingDirection)
