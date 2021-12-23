@@ -21,15 +21,18 @@ namespace Gerbil.BehaviourTree.Conditions
 		private bool isRunning = false;
 		private (Node2D actor, Node2D target) raycastParameters;
 		private RayCastResult rayCastResult = RayCastResult.Empty;
+
+
+		private World2D world;
 		
 		public override State Tick(Node2D actor, Dictionary blackboard)
 		{
-			GD.Print("Tick");
 			if (rayCastResult == RayCastResult.Empty)
 			{
 				GD.Print("Started");
 				Node2D target = (Node2D)blackboard[targetKey];
 				raycastParameters = (actor, target);
+				rayCastResult = RayCastResult.Running;
 				return State.Running;
 			}
 			else if (rayCastResult == RayCastResult.Running)
@@ -59,15 +62,28 @@ namespace Gerbil.BehaviourTree.Conditions
 		{
 			if (rayCastResult == RayCastResult.Running)
 			{
-				Physics2DDirectSpaceState spaceState = raycastParameters.actor.GetWorld2d().DirectSpaceState;
+				world = raycastParameters.actor.GetWorld2d();
+				Physics2DDirectSpaceState spaceState = world.DirectSpaceState;
 				Dictionary result = spaceState.IntersectRay(
 					raycastParameters.actor.GlobalPosition,
 					raycastParameters.target.GlobalPosition,
-					new Array { this },
+					new Array { raycastParameters.actor },
 					((KinematicBody2D)raycastParameters.actor).CollisionMask);
 				if (result.Count > 0)
-					GD.Print("Hit something");
-			}
+				{
+					if ((int)result["collider_id"] == (int)(raycastParameters.target.GetInstanceId()))
+						GD.Print("Hit");
+				}
+				else
+					rayCastResult = RayCastResult.HitNothing;
+			}			
+		}
+
+		// WARNING: cleanup: ObjectDB Instances still exist! when using GetWorld2d().DirectSpaceState #39216
+		// TODO:Workaround
+		public override void _ExitTree()
+		{
+			world?.Dispose();
 		}
 	}
 }
