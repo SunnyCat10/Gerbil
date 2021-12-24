@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Enemies/Textures/Protobob.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Warrior.cs" type="Script" id=2]
@@ -7,8 +7,7 @@
 [ext_resource path="res://BehaviourTree/Roots/WarriorBehaviour.tscn" type="PackedScene" id=5]
 [ext_resource path="res://BehaviourTree/Decorators/Inverter.tscn" type="PackedScene" id=6]
 [ext_resource path="res://BehaviourTree/Conditions/InRange.tscn" type="PackedScene" id=7]
-[ext_resource path="res://BehaviourTree/ControlFlows/Selector.tscn" type="PackedScene" id=8]
-[ext_resource path="res://BehaviourTree/Decorators/Succeeder.tscn" type="PackedScene" id=9]
+[ext_resource path="res://BehaviourTree/Actions/Print.tscn" type="PackedScene" id=10]
 [ext_resource path="res://BehaviourTree/Actions/Move.tscn" type="PackedScene" id=11]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -38,21 +37,20 @@ shape = SubResource( 3 )
 
 [node name="WarriorBehaviour" parent="." instance=ExtResource( 5 )]
 
-[node name="Selector" parent="WarriorBehaviour" instance=ExtResource( 8 )]
+[node name="Sequence" parent="WarriorBehaviour" instance=ExtResource( 3 )]
 
-[node name="Inverter" parent="WarriorBehaviour/Selector" instance=ExtResource( 6 )]
+[node name="Sequence" parent="WarriorBehaviour/Sequence" instance=ExtResource( 3 )]
 
-[node name="Succeeder" parent="WarriorBehaviour/Selector/Inverter" instance=ExtResource( 9 )]
+[node name="Inverter" parent="WarriorBehaviour/Sequence/Sequence" instance=ExtResource( 6 )]
 
-[node name="Sequence" parent="WarriorBehaviour/Selector/Inverter/Succeeder" instance=ExtResource( 3 )]
-
-[node name="Inverter" parent="WarriorBehaviour/Selector/Inverter/Succeeder/Sequence" instance=ExtResource( 6 )]
-
-[node name="InRange" parent="WarriorBehaviour/Selector/Inverter/Succeeder/Sequence/Inverter" instance=ExtResource( 7 )]
+[node name="InRange" parent="WarriorBehaviour/Sequence/Sequence/Inverter" instance=ExtResource( 7 )]
 detectionRange = 50.0
 
-[node name="Move" parent="WarriorBehaviour/Selector/Inverter/Succeeder/Sequence" instance=ExtResource( 11 )]
+[node name="Move" parent="WarriorBehaviour/Sequence/Sequence" instance=ExtResource( 11 )]
 
-[node name="Sequence" parent="WarriorBehaviour/Selector" instance=ExtResource( 3 )]
+[node name="Sequence2" parent="WarriorBehaviour/Sequence" instance=ExtResource( 3 )]
 
-[node name="InLineOfSight" parent="WarriorBehaviour/Selector/Sequence" instance=ExtResource( 4 )]
+[node name="InLineOfSight" parent="WarriorBehaviour/Sequence/Sequence2" instance=ExtResource( 4 )]
+
+[node name="Print" parent="WarriorBehaviour/Sequence/Sequence2" instance=ExtResource( 10 )]
+message = "Hit"

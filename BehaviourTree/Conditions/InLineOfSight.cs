@@ -3,31 +3,38 @@ using Godot.Collections;
 
 namespace Gerbil.BehaviourTree.Conditions
 {
+	/// <summary>
+	/// Checks if a target node is in direct line of sight of the parent.
+	/// Based on physical raycast query so it can detect objects that obsecure the line of sight.
+	/// </summary>
 	public class InLineOfSight : BaseNode
 	{
+		[Export]
+		private string targetKey = "target";
+
+		/// <summary>
+		/// Enum to differentiate the raycast query result.
+		/// </summary>
 		private enum RayCastResult
 		{
 			Empty,
 			Running,
-			HitPlayer,
+			HitTarget,
 			HitSomethingElse,
 			HitNothing
 		}
 
-		[Export]
-		private string targetKey = "target";
-		//private string raycastNodePath = "/raycast";
-
-		private bool isRunning = false;
-		private (Node2D actor, Node2D target) raycastParameters;
+		/// <summary>
+		/// Stores raycast query parameters so the physics process can access them.
+		/// </summary>
+		private (Node2D actor, Node2D target) raycastParameters; 
 		private RayCastResult rayCastResult = RayCastResult.Empty;
-
 
 		private World2D world;
 		
 		public override State Tick(Node2D actor, Dictionary blackboard)
 		{
-			if (rayCastResult == RayCastResult.Empty)
+			if (rayCastResult == RayCastResult.Empty) // Ready to do the raycast query.
 			{
 				GD.Print("Started");
 				Node2D target = (Node2D)blackboard[targetKey];
@@ -35,14 +42,14 @@ namespace Gerbil.BehaviourTree.Conditions
 				rayCastResult = RayCastResult.Running;
 				return State.Running;
 			}
-			else if (rayCastResult == RayCastResult.Running)
+			else if (rayCastResult == RayCastResult.Running) // Query is currently running.
 				return State.Running;
-			else
+			else // Return the results of the raycast query and default it`s state.
 			{
 				State state = State.Failed;
 				switch (rayCastResult)
 				{
-					case RayCastResult.HitPlayer:
+					case RayCastResult.HitTarget:
 						state = State.Succeeded;
 						break;
 					case RayCastResult.HitSomethingElse:
@@ -53,7 +60,6 @@ namespace Gerbil.BehaviourTree.Conditions
 						break;
 				}
 				rayCastResult = RayCastResult.Empty;
-				isRunning = false;
 				return state;
 			}
 		}
@@ -72,7 +78,7 @@ namespace Gerbil.BehaviourTree.Conditions
 				if (result.Count > 0)
 				{
 					if ((int)result["collider_id"] == (int)(raycastParameters.target.GetInstanceId()))
-						GD.Print("Hit");
+						rayCastResult = RayCastResult.HitTarget;
 				}
 				else
 					rayCastResult = RayCastResult.HitNothing;
@@ -80,7 +86,7 @@ namespace Gerbil.BehaviourTree.Conditions
 		}
 
 		// WARNING: cleanup: ObjectDB Instances still exist! when using GetWorld2d().DirectSpaceState #39216
-		// TODO:Workaround
+		// TODO: this is a Workaround! fix it when Godot devs will have a fix.
 		public override void _ExitTree()
 		{
 			world?.Dispose();
