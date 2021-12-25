@@ -96,9 +96,4 @@ public class Warrior : Enemy, IEnemy, IActor
 		this.targetLocation = targetLocation;
 		path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
 	}
-
-	public bool RayCast(Vector2 target)
-	{
-		return false;
-	}
 }
