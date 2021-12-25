@@ -19,9 +19,8 @@ namespace Gerbil.BehaviourTree.Conditions
 		{
 			Empty,
 			Running,
-			HitTarget,
-			HitSomethingElse,
-			HitNothing
+			TargetHit,
+			TargetNotHit
 		}
 
 		/// <summary>
@@ -36,7 +35,6 @@ namespace Gerbil.BehaviourTree.Conditions
 		{
 			if (rayCastResult == RayCastResult.Empty) // Ready to do the raycast query.
 			{
-				GD.Print("Started");
 				Node2D target = (Node2D)blackboard[targetKey];
 				raycastParameters = (actor, target);
 				rayCastResult = RayCastResult.Running;
@@ -49,13 +47,10 @@ namespace Gerbil.BehaviourTree.Conditions
 				State state = State.Failed;
 				switch (rayCastResult)
 				{
-					case RayCastResult.HitTarget:
+					case RayCastResult.TargetHit:
 						state = State.Succeeded;
 						break;
-					case RayCastResult.HitSomethingElse:
-						state = State.Failed;
-						break;
-					case RayCastResult.HitNothing:
+					case RayCastResult.TargetNotHit:
 						state = State.Failed;
 						break;
 				}
@@ -78,10 +73,12 @@ namespace Gerbil.BehaviourTree.Conditions
 				if (result.Count > 0)
 				{
 					if ((int)result["collider_id"] == (int)(raycastParameters.target.GetInstanceId()))
-						rayCastResult = RayCastResult.HitTarget;
+						rayCastResult = RayCastResult.TargetHit;
+					else
+						rayCastResult = RayCastResult.TargetNotHit;
 				}
 				else
-					rayCastResult = RayCastResult.HitNothing;
+					rayCastResult = RayCastResult.TargetNotHit;
 			}			
 		}
 
