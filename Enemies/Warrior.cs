@@ -23,6 +23,7 @@ public class Warrior : Enemy, IEnemy, IActor
 	private Pathfinding pathfinding;
 
 	private Vector2 targetLocation;
+	private Vector2[] path = new Vector2[0];
 	private List<Vector2> debugPathList;
 
 	public override void _Ready()
@@ -44,7 +45,7 @@ public class Warrior : Enemy, IEnemy, IActor
 		//	MoveAndSlide(movementDirection * delta * 10000f * 2f);
 		if (IsMoving)
 		{	
-			Vector2[] path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
+			//Vector2[] path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
 			if (path.Length > 1)
 			{
 				MoveAndCollide((path[1] - GlobalPosition).Normalized() * delta * 100f);
@@ -56,11 +57,7 @@ public class Warrior : Enemy, IEnemy, IActor
 				}
 				Debug.Instance.AddPathFindingPath(Name, debugPathList);
 			}
-			IsMoving = false;
 		}
-
-
-
 	}
 
 	public void Shoot(Vector2 shootingDirection)
@@ -95,9 +92,9 @@ public class Warrior : Enemy, IEnemy, IActor
 	 
 	public void Move(Vector2 targetLocation, bool isRunning)
 	{
+		IsMoving = isRunning;
 		this.targetLocation = targetLocation;
-		if (isRunning)
-			IsMoving = true;
+		path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
 	}
 
 	public bool RayCast(Vector2 target)
