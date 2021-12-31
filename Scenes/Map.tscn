@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scenes/Map.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Pathfinding.cs" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://Scenes/WeaponInventoryUI.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Enemies/Warrior.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Tiles/Wall.png" type="Texture" id=15]
+[ext_resource path="res://Weapons/Stapler.tscn" type="PackedScene" id=16]
 
 [sub_resource type="TileSet" id=1]
 0/name = "WarehouseTile1.png 0"
@@ -187,3 +188,6 @@ script = ExtResource( 2 )
 
 [node name="Warrior" parent="." instance=ExtResource( 14 )]
 position = Vector2( -175.994, -2.09726 )
+
+[node name="Stapler" parent="." instance=ExtResource( 16 )]
+position = Vector2( -6.44543, -53.9942 )

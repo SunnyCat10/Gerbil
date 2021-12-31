@@ -70,34 +70,34 @@ namespace Gerbil.BehaviourTree.ControlFlows
 		{
 			GD.Print("Not Implemented Yet");
 			int succeededChildren = 0;
-            for (int i = 0; i < children.Count; i++)
-            {
+			for (int i = 0; i < children.Count; i++)
+			{
 				if (results[i] == State.Running)
 				{
 					State result = ((BaseNode)children[i]).Tick(actor, blackboard);
-                    switch (result)
-                    {
-                        case State.Running:
-                            continue;
-                        case State.Failed:
+					switch (result)
+					{
+						case State.Running:
+							continue;
+						case State.Failed:
 							succeededChildren = 0;
 							ResetResults();
 							return State.Failed;
-                        case State.Succeeded:
+						case State.Succeeded:
 							++succeededChildren; 
 							if (succeededChildren == children.Count)
-                            {
+							{
 								succeededChildren = 0;
 								ResetResults();
 								return State.Succeeded;
-                            }
+							}
 							else
-                            {
+							{
 								results[i] = State.Succeeded;
 								break;
 							}				
-                    }
-                }		
+					}
+				}		
 			}
 			return State.Failed;
 		}
@@ -113,9 +113,9 @@ namespace Gerbil.BehaviourTree.ControlFlows
 		/// Reset the results array with the default value - State.Running .
 		/// </summary>
 		private void ResetResults()
-        {
-            for (int i = 0; i < results.Length; i++)
+		{
+			for (int i = 0; i < results.Length; i++)
 				results[i] = State.Running;
-        }
+		}
 	}
 }

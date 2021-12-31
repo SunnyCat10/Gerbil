@@ -17,6 +17,11 @@ public class Warrior : Enemy, IEnemy, IActor
 	private const string DeathAnimationName = "";
 	private const int MaxHealth = 100;
 
+	private const string DeathAnimation = "Death";
+	private const string MovingAnimation = "Moving";
+	private const string ShootingAnimation = "Shooting";
+
+
 	private bool IsCharging = false;
 	private Vector2 movementDirection;
 	private bool IsMoving = false;
@@ -25,6 +30,8 @@ public class Warrior : Enemy, IEnemy, IActor
 	private Vector2 targetLocation;
 	private Vector2[] path = new Vector2[0];
 	private List<Vector2> debugPathList;
+
+	private bool enabled = true;
 
 	public override void _Ready()
 	{
@@ -36,38 +43,54 @@ public class Warrior : Enemy, IEnemy, IActor
 
 		projectileScene = ResourceLoader.Load<PackedScene>(ProjectileScenePath);
 
+		animatedSprite = GetNode<AnimatedSprite>(GetPath() + AnimatedSpritePath);
+
 		debugPathList = new List<Vector2>();
+
+		Health = MaxHealth;
+		deathAnimationName = DeathAnimation;
+
+		animatedSprite.Play(MovingAnimation);
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
-		//if (IsCharging)
-		//	MoveAndSlide(movementDirection * delta * 10000f * 2f);
-		if (IsMoving)
-		{	
-			//Vector2[] path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
-			if (path.Length > 1)
+		if (enabled)
+		{
+			//if (IsCharging)
+			//	MoveAndSlide(movementDirection * delta * 10000f * 2f);
+			if (IsMoving)
 			{
-				MoveAndCollide((path[1] - GlobalPosition).Normalized() * delta * 100f);
-
-				debugPathList = new List<Vector2>();
-				foreach (Vector2 point in path)
+				//Vector2[] path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
+				if (path.Length > 1)
 				{
-					debugPathList.Add(point);
+					MoveAndCollide((path[1] - GlobalPosition).Normalized() * delta * 100f);
+
+					debugPathList = new List<Vector2>();
+					foreach (Vector2 point in path)
+					{
+						debugPathList.Add(point);
+					}
+					Debug.Instance.AddPathFindingPath(Name, debugPathList);
 				}
-				Debug.Instance.AddPathFindingPath(Name, debugPathList);
 			}
 		}
 	}
 
-	public void Shoot(Vector2 shootingDirection)
+	public async void Shoot(Vector2 shootingDirection)
 	{
-		RigidBody2D projectile = (RigidBody2D)projectileScene.Instance();
-		projectile.GlobalPosition = GlobalPosition;
-		projectile.Rotation = shootingDirection.Angle();
-		GetParent().AddChild(projectile);
-		IProjectile projectileInterface = (IProjectile)projectile;
-		projectileInterface.Fire(Damage);
+		if (enabled)
+		{
+			animatedSprite.Play(ShootingAnimation);
+			await ToSignal(animatedSprite, "animation_finished");
+			animatedSprite.Play(MovingAnimation);
+			RigidBody2D projectile = (RigidBody2D)projectileScene.Instance();
+			projectile.GlobalPosition = GlobalPosition;
+			projectile.Rotation = shootingDirection.Angle();
+			GetParent().AddChild(projectile);
+			IProjectile projectileInterface = (IProjectile)projectile;
+			projectileInterface.Fire(Damage);
+		}
 	}
 
 	public void Attack(int attackNumber, Vector2 attackingDirection)
@@ -92,8 +115,20 @@ public class Warrior : Enemy, IEnemy, IActor
 	 
 	public void Move(Vector2 targetLocation, bool isRunning)
 	{
-		IsMoving = isRunning;
-		this.targetLocation = targetLocation;
-		path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
+		if (enabled)
+		{
+			IsMoving = isRunning;
+			this.targetLocation = targetLocation;
+			path = pathfinding.GetNewPath(GlobalPosition, targetLocation);
+		}
+	}
+
+	public override async void OnDeath()
+	{	
+		collisionShape.SetDeferred("disabled", true);
+		enabled = false;
+		animatedSprite.Play(deathAnimationName);
+		await ToSignal(animatedSprite, "animation_finished");
+		QueueFree();
 	}
 }

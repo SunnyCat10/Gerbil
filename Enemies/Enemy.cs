@@ -20,7 +20,7 @@ namespace Gerbil.Enemies
                 OnDeath();
         }
 
-        public async void OnDeath()
+        public virtual async void OnDeath()
         {
             collisionShape.SetDeferred("disabled", true);
             animatedSprite.Play(deathAnimationName);
