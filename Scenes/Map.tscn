@@ -187,7 +187,16 @@ script = ExtResource( 2 )
 [node name="MainStatsUI" parent="CanvasLayer" instance=ExtResource( 12 )]
 
 [node name="Warrior" parent="." instance=ExtResource( 14 )]
-position = Vector2( -175.994, -2.09726 )
+position = Vector2( -196.153, 28.7708 )
+
+[node name="Warrior2" parent="." instance=ExtResource( 14 )]
+position = Vector2( 227.984, -126.217 )
+
+[node name="Warrior3" parent="." instance=ExtResource( 14 )]
+position = Vector2( 331.928, 251.13 )
+
+[node name="Warrior4" parent="." instance=ExtResource( 14 )]
+position = Vector2( -403.791, -250.534 )
 
 [node name="Stapler" parent="." instance=ExtResource( 16 )]
 position = Vector2( -6.44543, -53.9942 )

@@ -5,6 +5,9 @@ using Gerbil.Utilities;
 
 public class Map : Node2D
 {
+	[Export]
+	private bool DisplayPathFinding = false;
+
 	private const string PathFindingPath = "/Pathfinding";
 	private const string TileMapPath = "/TileMap";
 	private const string SpikeTrapPath = "res://Traps/SpikeTrap.tscn";
@@ -24,8 +27,10 @@ public class Map : Node2D
 		pathfinding = (Pathfinding)GetNode<Node2D>(GetPath() + PathFindingPath);
 		pathfinding.CreateNavigationMap(tileMap);
 
+
+		OS.WindowFullscreen = true;
 		Debug.Instance.SetupGraphicOverly(this);
-		Debug.Instance.DisplayPathFinding(true);
+		Debug.Instance.DisplayPathFinding(DisplayPathFinding);
 	}
 
 	private List<Vector2> GetTrapLocations()
